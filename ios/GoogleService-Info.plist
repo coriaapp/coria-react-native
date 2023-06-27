@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>260101013843-riki1g0d3c7gsfvgg0hseenf17um574r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.260101013843-riki1g0d3c7gsfvgg0hseenf17um574r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyByNzLXPP62dp6lvgNSX6boNjw6F0eOMxc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>260101013843</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.coria.media</string>
+	<key>PROJECT_ID</key>
+	<string>coria-e6788</string>
+	<key>STORAGE_BUCKET</key>
+	<string>coria-e6788.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:260101013843:ios:2ea8a477ac84234f0021a6</string>
+</dict>
+</plist>
