@@ -2,7 +2,7 @@ const {getDefaultConfig} = require('metro-config');
 
 module.exports = (async () => {
   const {
-    resolver: {sourceExts = [], assetExts},
+    resolver: {sourceExts, assetExts},
   } = await getDefaultConfig();
 
   const defaultSourceExts = [...sourceExts, 'svg', 'mjs', 'cjs'];
@@ -13,7 +13,7 @@ module.exports = (async () => {
         crypto: require.resolve('react-native-quick-crypto'),
       },
 
-      assetExts: Array.isArray(assetExts) ? assetExts.filter(ext => ext !== 'svg') : [],
+      assetExts: assetExts.filter(ext => ext !== 'svg'),
 
       sourceExts: process.env.TEST_REACT_NATIVE
         ? ['e2e.js'].concat(defaultSourceExts)
