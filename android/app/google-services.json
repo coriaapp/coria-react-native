@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "260101013843",
+    "project_id": "coria-e6788",
+    "storage_bucket": "coria-e6788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260101013843:android:fda900b4f1c4ce7d0021a6",
+        "android_client_info": {
+          "package_name": "com.catalyst"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260101013843-m37l74vvqks83g261eq7pl6acrg5s76o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwb1zpYlFBDAdWeDKfuY96uo2J5-oBXZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260101013843-m37l74vvqks83g261eq7pl6acrg5s76o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "260101013843-riki1g0d3c7gsfvgg0hseenf17um574r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.coria.media"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

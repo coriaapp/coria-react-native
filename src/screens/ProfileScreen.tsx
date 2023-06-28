@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Dimensions, ScrollView } from 'react-native';
 import CustomButton from '../components/CustomButton';
-
-import * as WebBrowser from '@toruslabs/react-native-web-browser';
-import Web3Auth, {
+import * as IWebBrowser from '@toruslabs/react-native-web-browser';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import  Web3Auth, {
   LOGIN_PROVIDER,
   OPENLOGIN_NETWORK,
+  IWeb3Auth,
+  OpenloginUserInfo,
 } from '@web3auth/react-native-sdk';
 import RPC from '../ethersRPC'; // for using ethers.js
 
@@ -15,14 +17,15 @@ const clientId =
   'BI69JyfHCVUbtwrqQqA8PcMhk82YZJbUYDrPJ5VKgqKPODvuSCP_vK1Qn3FhR1jtr5AO8Vb3IdRdtPLhzIbsXKU';
 
 const ProfileScreen: React.FC = () => {
-  const [key, setKey] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<string | null>(null);
-  const [console, setConsole] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<OpenloginUserInfo | undefined>();
+  const [key, setKey] = useState<string | undefined>('');
+  const [console, setConsole] = useState<string>('');
+  const [web3auth, setWeb3Auth] = useState<IWeb3Auth | null>(null);
 
   const login = async () => {
     try {
       setConsole('Logging in');
-      const web3auth = new Web3Auth(WebBrowser, {
+      const web3auth = new Web3Auth(IWebBrowser, EncryptedStorage,{
         clientId,
         network: OPENLOGIN_NETWORK.AQUA,
       });
@@ -30,13 +33,18 @@ const ProfileScreen: React.FC = () => {
       const info = await web3auth.login({
         loginProvider: LOGIN_PROVIDER.GOOGLE,
         redirectUrl: resolvedRedirectUrl,
+        mfaLevel: 'none',
+        curve: 'secp256k1',
       });
 
-      setUserInfo(info.toString());
-      setKey(info.privKey?.toString() || '');
-      uiConsole('Logged In');
-    } catch (e) {
-      uiConsole('Error logging in', e);
+      setConsole(`Logged in ${web3auth.privKey}`);
+      if (web3auth.privKey) {
+        setUserInfo(web3auth.userInfo());
+        setKey(web3auth.privKey);
+        uiConsole('Logged In');
+      }
+    } catch (e: any) {
+      setConsole(e.message);
     }
   };
 
