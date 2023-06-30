@@ -364,6 +364,9 @@ PODS:
     - glog
   - react-native-get-random-values (1.9.0):
     - React-Core
+  - react-native-photo-gallery-api (1.2.2):
+    - React
+    - React-Core
   - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-web-browser (1.1.0):
@@ -554,6 +557,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - react-native-photo-gallery-api (from `../node_modules/react-native-photo-gallery-api`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-web-browser (from `../node_modules/@toruslabs/react-native-web-browser`)"
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -646,6 +650,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-photo-gallery-api:
+    :path: "../node_modules/react-native-photo-gallery-api"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-web-browser:
@@ -739,6 +745,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8d754fc957255a29d93e52fc67a895045cdc8703
   React-logger: 454ffb01980778a43b0153ee98721d0275b56616
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
+  react-native-photo-gallery-api: 203532d9560598ee5d9c338beb6100d0775c587e
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-web-browser: 087b454e1e94b58b40ba73f54251d77486144d19
   React-NativeModulesApple: ce53a3585837c99a6212070950204a129a6bad5f
