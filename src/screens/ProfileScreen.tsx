@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Dimensions, ScrollView, Platform, Image } from 'react-native';
 import CustomButton from '../components/CustomButton';
+import RNFetchBlob from 'rn-fetch-blob';
+import uuid from 'react-native-uuid';
 
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
 import Web3Auth, {
@@ -34,51 +36,56 @@ const ProfileScreen: React.FC = () => {
   const [console, setConsole] = useState<string | null>(null);
   const [photos, setPhotos] = useState<any[]>();
 
-  const uploadToIPFS = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('string', 'Hello World');
-      const response = await axios.post('http://127.0.0.1:5001/api/v0/add', formData);
-      const ipfsHash = response.data.Hash;
-      uiConsole('Uploaded to IPFS:', ipfsHash);
-      return ipfsHash;
-    } catch (error) {
-      uiConsole('Error uploading to IPFS:', error);
-      throw error;
+  // Define the function with the file uri as a parameter
+const uploadImage = async (fileUri) => {
+  try {
+    // Create a FormData object to append the file data
+    let formData = new FormData();
+    // Extract the file name and type from the uri
+    let fileName = fileUri.split('/').pop();
+    let fileType = fileName.split('.').pop();
+    // Append the file data to the FormData object
+    formData.append('file', {
+      uri: fileUri,
+      name: fileName,
+      type: fileType
+    });
+
+    uiConsole('Uploading to IPFS:', formData)
+
+    // Set the headers for the axios request
+    let headers = {
+      'Content-Type': 'multipart/form-data'
+    };
+    // If the platform is android, add the host to the headers
+    if (Platform.OS === 'android') {
+      headers['Host'] = 'localhost';
     }
-  };
-
-  async function addDataToIPFS() {
-    try {
-  
-      const url = 'http://127.0.0.1:5001/api/v0/add';
-      
-      const imageData = await fetch("ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC");
-      uiConsole('imageData:', imageData);
-      const blob = await imageData.blob();
-
-      uiConsole('blob:', blob);
-
-      const formData = new FormData();
-      formData.append('file', blob);
-  
-      const response = await axios.post(url, formData, 
-        {
-          headers: {
-            // Authorization: `Basic ${btoa(`2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e`)}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      const { data } = response;
-      const json = JSON.parse(data);
-      const hash = json['Hash'];
-  
-      return hash;
-    } catch (error) {
-      uiConsole('Error uploading image to IPFS:', error);
-      return null;
-    }
+    // Send a post request to the local IPFS node with the FormData and headers
+    let response = await axios.post('http://localhost:5001/api/v0/add', formData, {
+      headers: headers
+    });
+    // uiConsole('Uploaded to IPFS:', response.data.Hash)
+    // Return the response data, which contains the IPFS hash of the uploaded file
+    return response.data.hash;
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
   }
+};
+
+
+    async function addDataToIPFSNew() {
+      try {
+        const hash = await uploadImage("ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC");
+        // const hash = await uploadImageToIPFS("ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC");
+        console.log('Image uploaded successfully to IPFS. Hash:', hash);
+        // Handle the IPFS hash as needed
+      } catch (error) {
+        console.error('Failed to upload image to IPFS:', error);
+        // Handle the error as needed
+      }
+    }
   
 
   const requestIOSFullPermission = async () => {
@@ -177,8 +184,7 @@ const ProfileScreen: React.FC = () => {
       <Button title="Request Full Permission" onPress={requestIOSFullPermission} />
       <Button title="Get Library" onPress={getLibrary} />
 
-      <Button title="Add string to IPFS" onPress={uploadToIPFS} />
-      <Button title="Add Image to IPFS" onPress={addDataToIPFS} />
+      <Button title="Add Image to IPFS New" onPress={addDataToIPFSNew} />
       <View style={styles.consoleArea}>
         <Text style={styles.consoleText}>Console:</Text>
         <ScrollView style={styles.console}>
@@ -188,7 +194,6 @@ const ProfileScreen: React.FC = () => {
 
       {/* <CustomButton /> */}
       <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  />
-
     </View>
   );
 };
