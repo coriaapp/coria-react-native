@@ -35,58 +35,48 @@ const ProfileScreen: React.FC = () => {
   const [userInfo, setUserInfo] = useState<string | null>(null);
   const [console, setConsole] = useState<string | null>(null);
   const [photos, setPhotos] = useState<any[]>();
+  const [androidPhoto, setAndroidPhoto] = useState<string> ('');
 
-  // Define the function with the file uri as a parameter
-const uploadImage = async (fileUri) => {
+
+const uploadImageToInfuraIPFS = async () => {
   try {
-    // Create a FormData object to append the file data
+    // Create a FormData object to append the file
     let formData = new FormData();
     // Extract the file name and type from the uri
-    let fileName = fileUri.split('/').pop();
-    let fileType = fileName.split('.').pop();
-    // Append the file data to the FormData object
+    let fileName = androidPhoto.split('/').pop();
+    let fileType = androidPhoto.split('.').pop();
+    // Append the file to the formData
     formData.append('file', {
-      uri: fileUri,
+      uri: androidPhoto,
       name: fileName,
-      type: fileType
+      type: `image/${fileType}`,
     });
-
-    uiConsole('Uploading to IPFS:', formData)
-
-    // Set the headers for the axios request
+    // Set the headers for the request
     let headers = {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      // Add your Infura API key and secret as authorization
+      Authorization: 'Basic ' + btoa('2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e'),
     };
-    // If the platform is android, add the host to the headers
-    if (Platform.OS === 'android') {
-      headers['Host'] = 'localhost';
-    }
-    // Send a post request to the local IPFS node with the FormData and headers
-    let response = await axios.post('http://localhost:5001/api/v0/add', formData, {
-      headers: headers
-    });
-    // uiConsole('Uploaded to IPFS:', response.data.Hash)
-    // Return the response data, which contains the IPFS hash of the uploaded file
-    return response.data.hash;
+    // Send a POST request to the Infura IPFS endpoint with the formData and headers
+    let response = await axios.post(
+      'https://ipfs.infura.io:5001/api/v0/add',
+      formData,
+      {headers: headers},
+    );
+    uiConsole(response.data)
+    // Return the response data, which contains the IPFS hash and other information
+    return response.data;
   } catch (error) {
     // Handle any errors
-    console.error(error);
+    uiConsole(error);
   }
 };
-
-
-    async function addDataToIPFSNew() {
-      try {
-        const hash = await uploadImage("ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC");
-        // const hash = await uploadImageToIPFS("ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC");
-        console.log('Image uploaded successfully to IPFS. Hash:', hash);
-        // Handle the IPFS hash as needed
-      } catch (error) {
-        console.error('Failed to upload image to IPFS:', error);
-        // Handle the error as needed
-      }
-    }
   
+    const requestAndroidGalleryReadPermission = async () => {
+      const permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
+      const status = await PermissionsAndroid.request(permission);
+      uiConsole(`[Gallery][Permission] status: ${status}`);
+    };
 
   const requestIOSFullPermission = async () => {
     try {
@@ -116,6 +106,7 @@ const uploadImage = async (fileUri) => {
       ...(Platform.OS === 'android' && { fileSize: true }),
     });
     uiConsole(`[Gallery][getPhotos] edges: ${edges.length}`);
+    setAndroidPhoto(edges[1].node.image.uri);
     uiConsole(`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`);
   };
 
@@ -181,10 +172,10 @@ const uploadImage = async (fileUri) => {
   return (
     <View style={styles.container}>
       {key ? loggedInView : unloggedInView}
-      <Button title="Request Full Permission" onPress={requestIOSFullPermission} />
+      <Button title="Request Full Permission iOS" onPress={requestIOSFullPermission} />
+      <Button title="Request Read Permission Android" onPress={requestAndroidGalleryReadPermission} />
       <Button title="Get Library" onPress={getLibrary} />
-
-      <Button title="Add Image to IPFS New" onPress={addDataToIPFSNew} />
+      <Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
       <View style={styles.consoleArea}>
         <Text style={styles.consoleText}>Console:</Text>
         <ScrollView style={styles.console}>
@@ -193,7 +184,8 @@ const uploadImage = async (fileUri) => {
       </View>
 
       {/* <CustomButton /> */}
-      <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  />
+      {/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
+      {/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
     </View>
   );
 };
