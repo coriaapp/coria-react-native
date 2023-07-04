@@ -15,23 +15,23 @@ const SCREEN_WIDTH = SCREEN.width;
 const SCREEN_HEIGHT = SCREEN.height;
 
 export const ImageLoading = () => (
-  <View style={styles.loading}>
-    <ActivityIndicator size="small" color="#FFF" />
-  </View>
+	<View style={styles.loading}>
+		<ActivityIndicator size="small" color="#FFF" />
+	</View>
 );
 
 const styles = StyleSheet.create({
-  listItem: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  loading: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imageScrollContainer: {
-    height: SCREEN_HEIGHT,
-  },
+	listItem: {
+		width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT
+	},
+	loading: {
+		width: SCREEN_WIDTH,
+		height: SCREEN_HEIGHT,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	imageScrollContainer: {
+		height: SCREEN_HEIGHT
+	}
 });
