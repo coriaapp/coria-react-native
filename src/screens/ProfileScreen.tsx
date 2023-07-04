@@ -51,17 +51,61 @@ const ProfileScreen: React.FC = () => {
 	const [console, setConsole] = useState<string | null>(null);
 	const [photos, setPhotos] = useState<any[]>();
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
+	const [ bufferData, setbufferData ]= useState<string>("");
 
   const encryptData = async () => {
 
+	
+
 	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
+
+	// fetch(androidPhoto).then(res => {
+	// 	res.blob().then((blob) => {
+	// 		const reader = new FileReader();
+	// 		reader.readAsDataURL(blob); 
+	// 		reader.onloadend = () => {
+	// 			const base64data = reader.result;  
+	// 			setbufferData(base64data);
+	// 		}
+	// 	}).then(() => {
+	// 		uiConsole("done!")
+	// 	})
+	// })
+	
+
 	let dataChunk = '';
 	const dirPath = ReactNativeBlobUtil.fs.dirs.DocumentDir.split('data')[0];
-	const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64')
-
+	const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64');
 	// const data = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
-	uiConsole(filePath)
+	// uiConsole(filePath)
 	
+  };
+  
+  const uploadbase64toIPFS = async () => {
+	
+	try {
+		// Set the headers for the request
+		let headers = {
+			"Content-Type": "application/json",
+			// Add your Infura API key and secret as authorization
+			Authorization:
+				"Basic " +
+				btoa("2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e")
+		};
+
+		//upload base64 string to ipfs
+		let response = await axios.post(
+			"https://ipfs.infura.io:5001/api/v0/add",
+			{"string": bufferData},
+			{ headers: headers }
+		);
+		uiConsole(response.data);
+	} catch (error) {
+		// Handle any errors
+		uiConsole("error");
+	}
+
+
   };
 
 	const uploadImageToInfuraIPFS = async () => {
@@ -134,7 +178,7 @@ const ProfileScreen: React.FC = () => {
 		});
 		setAndroidPhoto(edges[1].node.image.uri + '/' + edges[1].node.image.filename);
 		uiConsole(
-			`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
+			`[Gallery][getPhotos] photoInfo: ${edges[5].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
 		);
 	};
 
@@ -196,8 +240,20 @@ const ProfileScreen: React.FC = () => {
 		</View>
 	);
 
+	/**
+ * I write a litte util method to convert localIdentifier to assetURL in JavaScript
+ * @param localIdentifier looks like 91B1C271-C617-49CE-A074-E391BA7F843F/L0/001
+ * @param ext the extension: JPG, PNG, MOV
+ * @returns {string}
+ */
+ const convertLocalIdentifierToAssetLibrary = () => {
+	return `assets-library://asset/asset.JPG?id=99D53A1F-FEEF-40E1-8BB3-7DD55A43C8B71&ext=JPG`;
+  };
+  
+
 	return (
-		<View style={styles.container}>
+		<ScrollView>
+		<View>
 			{key ? loggedInView : unloggedInView}
 			<Button
 				title="Request Full Permission iOS"
@@ -210,6 +266,7 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Get Library" onPress={getLibrary} />
 			<Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
       <Button title="Encrypt" onPress={encryptData} />
+	  <Button title="base64ipfs" onPress={uploadbase64toIPFS} />
 			<View style={styles.consoleArea}>
 				<Text style={styles.consoleText}>Console:</Text>
 				<ScrollView style={styles.console}>
@@ -217,10 +274,14 @@ const ProfileScreen: React.FC = () => {
 				</ScrollView>
 			</View>
 
+
+			{/* <Text>Buffer: {bufferData}</Text> */}
+
 			{/* <CustomButton /> */}
 			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
 			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
 		</View>
+		</ScrollView>
 	);
 };
 
@@ -237,7 +298,8 @@ const styles = StyleSheet.create({
 		margin: 20,
 		alignItems: "center",
 		justifyContent: "center",
-		flex: 1
+		flex: 1,
+		height: 300
 	},
 	console: {
 		flex: 1,
