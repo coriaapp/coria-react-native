@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Dimensions, ScrollView, Platform, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Dimensions,
+  ScrollView,
+  Platform,
+  Image,
+} from 'react-native';
 import CustomButton from '../components/CustomButton';
 import RNFetchBlob from 'rn-fetch-blob';
 import uuid from 'react-native-uuid';
@@ -11,8 +20,12 @@ import Web3Auth, {
 } from '@web3auth/react-native-sdk';
 import RPC from '../ethersRPC'; // for using ethers.js
 
-// Gallary 
-import { AppState, PermissionsAndroid, EmitterSubscription } from 'react-native';
+// Gallary
+import {
+  AppState,
+  PermissionsAndroid,
+  EmitterSubscription,
+} from 'react-native';
 import {
   AccessLevel,
   iosReadGalleryPermission,
@@ -24,6 +37,7 @@ import { PhotoGallery } from 'react-native-photo-gallery-api';
 
 import axios from 'axios';
 
+import { encryptImage, decryptImage } from '../utils/EncryptUtil';
 
 const scheme = 'Catalyst'; // Or your desired app redirection scheme
 const resolvedRedirectUrl = `${scheme}://openlogin`;
@@ -35,48 +49,48 @@ const ProfileScreen: React.FC = () => {
   const [userInfo, setUserInfo] = useState<string | null>(null);
   const [console, setConsole] = useState<string | null>(null);
   const [photos, setPhotos] = useState<any[]>();
-  const [androidPhoto, setAndroidPhoto] = useState<string> ('');
+  const [androidPhoto, setAndroidPhoto] = useState<string>('');
 
+  const uploadImageToInfuraIPFS = async () => {
+    try {
+      // Create a FormData object to append the file
+      let formData = new FormData();
+      let fileName = androidPhoto.split('/').pop();
+      let fileType = androidPhoto.split('.').pop();
+      // Append the file to the formData
+      formData.append('file', {
+        uri: androidPhoto,
+        name: fileName,
+        type: `image/${fileType}`,
+      });
+      // Set the headers for the request
+      let headers = {
+        'Content-Type': 'multipart/form-data',
+        // Add your Infura API key and secret as authorization
+        Authorization:
+          'Basic ' +
+          btoa('2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e'),
+      };
+      // Send a POST request to the Infura IPFS endpoint with the formData and headers
+      let response = await axios.post(
+        'https://ipfs.infura.io:5001/api/v0/add',
+        formData,
+        { headers: headers },
+      );
+      uiConsole(response.data);
+      // Return the response data, which contains the IPFS hash and other information
+      return response.data;
+    } catch (error) {
+      // Handle any errors
+      uiConsole(error);
+    }
+  };
 
-const uploadImageToInfuraIPFS = async () => {
-  try {
-    // Create a FormData object to append the file
-    let formData = new FormData();
-    // Extract the file name and type from the uri
-    let fileName = androidPhoto.split('/').pop();
-    let fileType = androidPhoto.split('.').pop();
-    // Append the file to the formData
-    formData.append('file', {
-      uri: androidPhoto,
-      name: fileName,
-      type: `image/${fileType}`,
-    });
-    // Set the headers for the request
-    let headers = {
-      'Content-Type': 'multipart/form-data',
-      // Add your Infura API key and secret as authorization
-      Authorization: 'Basic ' + btoa('2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e'),
-    };
-    // Send a POST request to the Infura IPFS endpoint with the formData and headers
-    let response = await axios.post(
-      'https://ipfs.infura.io:5001/api/v0/add',
-      formData,
-      {headers: headers},
-    );
-    uiConsole(response.data)
-    // Return the response data, which contains the IPFS hash and other information
-    return response.data;
-  } catch (error) {
-    // Handle any errors
-    uiConsole(error);
-  }
-};
-  
-    const requestAndroidGalleryReadPermission = async () => {
-      const permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
-      const status = await PermissionsAndroid.request(permission);
-      uiConsole(`[Gallery][Permission] status: ${status}`);
-    };
+  const requestAndroidGalleryReadPermission = async () => {
+    const permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
+    const status = await PermissionsAndroid.request(permission);
+    uiConsole(`[Gallery][Permission] status: ${status}`);
+  };
 
   const requestIOSFullPermission = async () => {
     try {
@@ -107,7 +121,9 @@ const uploadImageToInfuraIPFS = async () => {
     });
     uiConsole(`[Gallery][getPhotos] edges: ${edges.length}`);
     setAndroidPhoto(edges[1].node.image.uri);
-    uiConsole(`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`);
+    uiConsole(
+      `[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`,
+    );
   };
 
   const login = async () => {
@@ -153,14 +169,13 @@ const uploadImageToInfuraIPFS = async () => {
 
   const loggedInView = (
     <View style={styles.buttonArea}>
-  <Button title="Get User Info" onPress={() => uiConsole(userInfo)} />
-  <Button title="Get Chain ID" onPress={() => getChainId()} />
-  <Button title="Get Accounts" onPress={() => getAccounts()} />
-  <Button title="Sign Message" onPress={() => signMessage()} />
-  <Button title="Get Private Key" onPress={() => uiConsole(key)} />
-  <Button title="Log Out" onPress={() => setKey('')} />
-</View>
-
+      <Button title="Get User Info" onPress={() => uiConsole(userInfo)} />
+      <Button title="Get Chain ID" onPress={() => getChainId()} />
+      <Button title="Get Accounts" onPress={() => getAccounts()} />
+      <Button title="Sign Message" onPress={() => signMessage()} />
+      <Button title="Get Private Key" onPress={() => uiConsole(key)} />
+      <Button title="Log Out" onPress={() => setKey('')} />
+    </View>
   );
 
   const unloggedInView = (
@@ -172,8 +187,14 @@ const uploadImageToInfuraIPFS = async () => {
   return (
     <View style={styles.container}>
       {key ? loggedInView : unloggedInView}
-      <Button title="Request Full Permission iOS" onPress={requestIOSFullPermission} />
-      <Button title="Request Read Permission Android" onPress={requestAndroidGalleryReadPermission} />
+      <Button
+        title="Request Full Permission iOS"
+        onPress={requestIOSFullPermission}
+      />
+      <Button
+        title="Request Read Permission Android"
+        onPress={requestAndroidGalleryReadPermission}
+      />
       <Button title="Get Library" onPress={getLibrary} />
       <Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
       <View style={styles.consoleArea}>
