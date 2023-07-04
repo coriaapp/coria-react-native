@@ -1,13 +1,18 @@
 import CryptoJS from "crypto-js";
-import fs from "react-native-fs";
+import RNFetchBlob from "rn-fetch-blob";
 
 export async function encryptImage(
 	imageUri: string,
 	key: string
 ): Promise<string> {
-	const image = await fs.readFile(imageUri, "base64");
-	const encryptedImage = CryptoJS.AES.encrypt(image, key).toString();
+	const image = await RNFetchBlob.fs.readStream(imageUri, "base64");
+    // create a WordArray from the stream data
+  const wordArray = CryptoJS.lib.WordArray.create([]);
+
+  // encrypt the WordArray using CryptoJS
+	const encryptedImage = CryptoJS.AES.encrypt(wordArray, key).toString();
 	return encryptedImage;
+	
 }
 
 export async function decryptImage(

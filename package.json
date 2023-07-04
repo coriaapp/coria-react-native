@@ -20,6 +20,7 @@
 		"@react-navigation/native": "^6.1.7",
 		"@toruslabs/react-native-web-browser": "^1.1.0",
 		"@types/crypto-js": "^4.1.1",
+		"@types/react-native-crypto-js": "^1.0.0",
 		"@web3auth/react-native-sdk": "^3.5.0",
 		"axios": "^1.4.0",
 		"buffer": "^6.0.3",
@@ -29,6 +30,8 @@
 		"native-base": "^3.4.28",
 		"react": "18.2.0",
 		"react-native": "0.72.0",
+		"react-native-blob-util": "^0.18.3",
+		"react-native-crypto-js": "^1.0.0",
 		"react-native-fs": "^2.20.0",
 		"react-native-gesture-handler": "^2.12.0",
 		"react-native-get-random-values": "^1.9.0",
@@ -40,8 +43,7 @@
 		"react-native-safe-area-context": "^3.3.2",
 		"react-native-screens": "^3.22.0",
 		"react-native-uuid": "^2.0.1",
-		"react-native-vector-icons": "^9.2.0",
-		"rn-fetch-blob": "^0.12.0"
+		"react-native-vector-icons": "^9.2.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.20.0",

@@ -7,11 +7,9 @@ import {
 	Dimensions,
 	ScrollView,
 	Platform,
-	Image
+	Image,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
-import RNFetchBlob from "rn-fetch-blob";
-import uuid from "react-native-uuid";
 
 import * as WebBrowser from "@toruslabs/react-native-web-browser";
 import Web3Auth, {
@@ -37,7 +35,10 @@ import { PhotoGallery } from "react-native-photo-gallery-api";
 
 import axios from "axios";
 
-import { encryptImage, decryptImage } from "../utils/EncryptUtil";
+import CryptoJS from 'react-native-crypto-js';
+import RNFS from 'react-native-fs';
+import ReactNativeBlobUtil from 'react-native-blob-util'
+
 
 const scheme = "Catalyst"; // Or your desired app redirection scheme
 const resolvedRedirectUrl = `${scheme}://openlogin`;
@@ -50,6 +51,18 @@ const ProfileScreen: React.FC = () => {
 	const [console, setConsole] = useState<string | null>(null);
 	const [photos, setPhotos] = useState<any[]>();
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
+
+  const encryptData = async () => {
+
+	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
+	let dataChunk = '';
+	const dirPath = ReactNativeBlobUtil.fs.dirs.DocumentDir.split('data')[0];
+	const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64')
+
+	// const data = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
+	uiConsole(filePath)
+	
+  };
 
 	const uploadImageToInfuraIPFS = async () => {
 		try {
@@ -119,8 +132,7 @@ const ProfileScreen: React.FC = () => {
 			// Include fileSize only for android since it's causing performance issues on IOS.
 			...(Platform.OS === "android" && { fileSize: true })
 		});
-		uiConsole(`[Gallery][getPhotos] edges: ${edges.length}`);
-		setAndroidPhoto(edges[1].node.image.uri);
+		setAndroidPhoto(edges[1].node.image.uri + '/' + edges[1].node.image.filename);
 		uiConsole(
 			`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
 		);
@@ -197,6 +209,7 @@ const ProfileScreen: React.FC = () => {
 			/>
 			<Button title="Get Library" onPress={getLibrary} />
 			<Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
+      <Button title="Encrypt" onPress={encryptData} />
 			<View style={styles.consoleArea}>
 				<Text style={styles.consoleText}>Console:</Text>
 				<ScrollView style={styles.console}>
