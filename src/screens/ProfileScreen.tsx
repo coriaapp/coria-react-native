@@ -51,6 +51,14 @@ const ProfileScreen: React.FC = () => {
 	const [ipfsHash, setIpfsHash] = useState<string | null>(null);
 	const [decryptedBase64, setDecryptedBase64] = useState<string | null>(null);
 
+
+	const encDnc = async () => {
+		const encrypt = await encryptImage("androidPhoto", "thisisapasswordhello");
+
+		const decrypt = await decryptImage(encrypt, "thisisapasswordhello");
+
+		uiConsole("decrypted: " + decrypt);
+	};
   const encryptData = async () => {	
 
 	const encryptedImage = await encryptImage(androidPhoto, "thisisapasswordhello");
@@ -285,7 +293,8 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Decrypt" onPress={decryptFromIPFS} />
 			<Button title="open URL" onPress={openURL} />
 			<Button title="Decrypted base 64 to ipfs" onPress={uploadDecryptedbase64toIPFS} />
-			<Text style={styles.consoleText}>http://localhost:5001/ipfs/{ipfsHash}</Text>
+			<Button title="Test encryption" onPress={encDnc} />
+			<Text style={styles.consoleText}>URL: http://localhost:5001/ipfs/{ipfsHash}</Text>
 			<View style={styles.consoleArea}>
 				<Text style={styles.consoleText}>Console:</Text>
 				<ScrollView style={styles.console}>
@@ -299,7 +308,7 @@ const ProfileScreen: React.FC = () => {
 			{/* <CustomButton /> */}
 			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
 			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
-			<Image  source={{ uri: `data:image/PNG;base64,${decryptedBase64}` }} resizeMode="cover" style={{width: 100, height: 100}}  />
+			<Image  source={{ uri: `${decryptedBase64}` }} resizeMode="cover" style={{width: 100, height: 100}}  />
 		</View>
 		</ScrollView>
 	);

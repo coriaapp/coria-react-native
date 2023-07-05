@@ -23,8 +23,6 @@ export async function encryptImage(
     
     const imageBase64 = await uriToBase64(imageUri);
 
-    // const encryptedImage = CryptoJS.AES.encrypt("imageBase64.toString()", key).toString();
-
 	const encryptedImage = await CryptoJS.AES.encrypt(imageBase64.toString(), key).toString();
 	return encryptedImage;
 	
@@ -34,8 +32,6 @@ export async function decryptImage(
 	encryptedImage: string,
 	key: string
 ): Promise<string> {
-	const decryptedImage = CryptoJS.AES.decrypt(encryptedImage, key).toString(
-		CryptoJS.enc.Base64
-	);
+	const decryptedImage = CryptoJS.AES.decrypt(encryptedImage, key).toString(CryptoJS.enc.Utf8);
 	return decryptedImage;
 }
