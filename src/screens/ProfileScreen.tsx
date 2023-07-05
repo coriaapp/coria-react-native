@@ -51,14 +51,6 @@ const ProfileScreen: React.FC = () => {
 	const [ipfsHash, setIpfsHash] = useState<string | null>(null);
 	const [decryptedBase64, setDecryptedBase64] = useState<string | null>(null);
 
-
-	const encDnc = async () => {
-		const encrypt = await encryptImage("androidPhoto", "thisisapasswordhello");
-
-		const decrypt = await decryptImage(encrypt, "thisisapasswordhello");
-
-		uiConsole("decrypted: " + decrypt);
-	};
   const encryptData = async () => {	
 
 	const encryptedImage = await encryptImage(androidPhoto, "thisisapasswordhello");
@@ -293,7 +285,6 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Decrypt" onPress={decryptFromIPFS} />
 			<Button title="open URL" onPress={openURL} />
 			<Button title="Decrypted base 64 to ipfs" onPress={uploadDecryptedbase64toIPFS} />
-			<Button title="Test encryption" onPress={encDnc} />
 			<Text style={styles.consoleText}>URL: http://localhost:5001/ipfs/{ipfsHash}</Text>
 			<View style={styles.consoleArea}>
 				<Text style={styles.consoleText}>Console:</Text>
