@@ -1,21 +1,42 @@
 import React from "react";
-import Icon from "react-native-vector-icons/Ionicons";
-import { VStack, HStack, Box, Text } from "native-base";
+import { Text, Pressable, HStack, VStack, Avatar, Icon, ArrowRightIcon } from './core';
 
 const CustomButton: React.FC = () => {
 	return (
-		<Box bg="indigo.300" p="3" rounded="xl" w="95%" h="20%" borderRadius="30">
-			<VStack justifyContent="space-between" space="50%">
+		<Pressable
+			onPress={() => console.log("Hello")}
+			p="$5"
+			bg="#191919"
+			width={"100%"}
+			height={"100%"}
+			sx={{
+				":pressed": { bg: "$violet50" }
+			}}
+			rounded={30}
+		>
+			{/* Complete Space between VStack elemnts */}
+			<VStack space="30%">
 				<HStack>
-					<Icon name="ios-home" size={30} color="white" />
+					<Avatar bgColor="#194E8B" size="lg" borderRadius="$full" >
+						<Avatar.FallbackText></Avatar.FallbackText>
+						<Avatar.Image 
+							source={{
+								uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+							}}
+						/>
+					</Avatar>
 				</HStack>
-
-				<HStack justifyContent="space-between" w="100%">
-					<Text>Home</Text>
-					<Icon name="ios-arrow-forward" size={30} color="white" />
+				<HStack>
+					<VStack>
+						<Text color="white" fontWeight="$medium">John Doe</Text>
+						<HStack space="53%">
+							<Text color="#999999" fontWeight="$medium" fontSize={"$sm"}>Johndoe@gmail.com</Text>
+							<Icon as={ArrowRightIcon} color="#999999" size="lg" />
+						</HStack>
+					</VStack>
 				</HStack>
 			</VStack>
-		</Box>
+		</Pressable>
 	);
 };
 
