@@ -4,97 +4,97 @@ import { Root } from "../styled-components";
 import { Path } from "react-native-svg";
 
 const ArrowUpIcon = createIcon({
-	Root,
-	viewBox: "0 0 24 24",
-	path: (
-		<>
-			<Path
-				d="M12 19V5"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<Path
-				d="M5 12L12 5L19 12"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</>
-	)
+  Root,
+  viewBox: "0 0 24 24",
+  path: (
+    <>
+      <Path
+        d="M12 19V5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M5 12L12 5L19 12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  )
 });
 
 const ArrowDownIcon = createIcon({
-	Root,
+  Root,
 
-	viewBox: "0 0 24 24",
-	path: (
-		<>
-			<Path
-				d="M12 5V19"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<Path
-				d="M19 12L12 19L5 12"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</>
-	)
+  viewBox: "0 0 24 24",
+  path: (
+    <>
+      <Path
+        d="M12 5V19"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M19 12L12 19L5 12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  )
 });
 
 const ArrowRightIcon = createIcon({
-	Root,
+  Root,
 
-	viewBox: "0 0 24 24",
-	path: (
-		<>
-			<Path
-				d="M5 12H19"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<Path
-				d="M12 5L19 12L12 19"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</>
-	)
+  viewBox: "0 0 24 24",
+  path: (
+    <>
+      <Path
+        d="M5 12H19"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 5L19 12L12 19"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  )
 });
 
 const ArrowLeftIcon = createIcon({
-	Root,
-	viewBox: "0 0 24 24",
-	path: (
-		<>
-			<Path
-				d="M19 12H5"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<Path
-				d="M12 19L5 12L12 5"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</>
-	)
+  Root,
+  viewBox: "0 0 24 24",
+  path: (
+    <>
+      <Path
+        d="M19 12H5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 19L5 12L12 5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  )
 });
 
 // const ArrowTopRightIcon = createIcon({
@@ -116,9 +116,9 @@ ArrowLeftIcon.displayName = "ArrowLeftIcon";
 // ArrowTopRightIcon.displayName = 'ArrowTopRightIcon';
 
 export {
-	ArrowUpIcon,
-	ArrowDownIcon,
-	ArrowRightIcon,
-	ArrowLeftIcon
-	// ArrowTopRightIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon
+  // ArrowTopRightIcon,
 };

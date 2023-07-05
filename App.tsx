@@ -6,15 +6,15 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import SettingsScreen from "./src/screens/SettingsScreen";
 
 const App: React.FC = () => {
-	return (
-		<GluestackUIProvider config={config.theme}>
-			<SafeAreaProvider>
-				<NavigationContainer>
-					<SettingsScreen />
-				</NavigationContainer>
-			</SafeAreaProvider>
-		</GluestackUIProvider>
-	);
+  return (
+    <GluestackUIProvider config={config.theme}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <SettingsScreen />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </GluestackUIProvider>
+  );
 };
 
 export default App;
