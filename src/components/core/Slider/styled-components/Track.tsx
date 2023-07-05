@@ -1,20 +1,20 @@
-import { styled } from '../../styled';
-import { Pressable } from 'react-native';
+import { styled } from "../../styled";
+import { Pressable } from "react-native";
 
 export default styled(
-  Pressable,
-  {
-    'h': '100%',
-    'w': '100%',
-    'bg': '$backgroundLight300',
-    'borderRadius': '$lg',
-    'overflow': 'hidden',
+	Pressable,
+	{
+		h: "100%",
+		w: "100%",
+		bg: "$backgroundLight300",
+		borderRadius: "$lg",
+		overflow: "hidden",
 
-    ':disabled': {},
+		":disabled": {},
 
-    '_dark': {
-      bg: '$backgroundDark700',
-    },
-  },
-  {}
+		_dark: {
+			bg: "$backgroundDark700"
+		}
+	},
+	{}
 );

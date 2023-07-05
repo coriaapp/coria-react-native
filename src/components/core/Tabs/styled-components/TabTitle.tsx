@@ -1,10 +1,10 @@
-import { styled } from '../../styled';
-import { Text } from 'react-native';
+import { styled } from "../../styled";
+import { Text } from "react-native";
 
 export default styled(
-  Text,
-  {
-    fontFamily: '$body',
-  },
-  { ancestorStyle: ['_title'] }
+	Text,
+	{
+		fontFamily: "$body"
+	},
+	{ ancestorStyle: ["_title"] }
 );

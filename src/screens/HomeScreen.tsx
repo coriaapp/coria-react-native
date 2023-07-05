@@ -2,9 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const HomeScreen: React.FC = () => {
-	return (
-		<Text style={styles.text}>Home Screen</Text>
-	);
+	return <Text style={styles.text}>Home Screen</Text>;
 };
 
 {

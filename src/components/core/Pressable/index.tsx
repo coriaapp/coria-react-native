@@ -1,2 +1,2 @@
-import { Pressable } from './styled-components';
+import { Pressable } from "./styled-components";
 export { Pressable };

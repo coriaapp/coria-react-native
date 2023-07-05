@@ -47,67 +47,38 @@ const ProfileScreen: React.FC = () => {
 	const [console, setConsole] = useState<string | null>(null);
 	const [photos, setPhotos] = useState<any[]>();
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
-	const [ bufferData, setbufferData ]= useState<string | ArrayBuffer>("");
+	const [bufferData, setbufferData] = useState<string | ArrayBuffer>("");
 	const [ipfsHash, setIpfsHash] = useState<string | null>(null);
 	const [decryptedBase64, setDecryptedBase64] = useState<string | null>(null);
 
-  const encryptData = async () => {	
+	const encryptData = async () => {
+		const encryptedImage = await encryptImage(
+			androidPhoto,
+			"thisisapasswordhello"
+		);
 
-	const encryptedImage = await encryptImage(androidPhoto, "thisisapasswordhello");
-
-	setbufferData(encryptedImage);
-
-  };
-
-  const openURL = async () => {
-	Linking.openURL("https://ipfs.io/ipfs/" + ipfsHash);
-  };
-  
-  const decryptFromIPFS = async () => {
-	// fetch from ipfs using axios
-	let response = await axios.get(
-		`https://ipfs.io/ipfs/${ipfsHash}`
-	);
-
-	// decrypt the data
-	let decryptedData = await decryptImage(response.data, "thisisapasswordhello");
-
-	setDecryptedBase64(decryptedData);
-	uiConsole("Done");
-
-  }
-
-  const uploadDecryptedbase64toIPFS = async () => {
-	
-	
-	// Set the headers for the request
-	let headers = {
-		// Accept: 'application/json',
-		"Content-Type": "application/json",
-		// Add your Infura API key and secret as authorization
-		Authorization:
-			"Basic " +
-			btoa("2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e")
+		setbufferData(encryptedImage);
 	};
 
-	const formData = new FormData();
-	   formData.append('string', decryptedBase64);
+	const openURL = async () => {
+		Linking.openURL("https://ipfs.io/ipfs/" + ipfsHash);
+	};
 
-	//upload base64 string to ipfs
-	let response = await axios.post(
-		"http://127.0.0.1:5001/api/v0/add",
-		formData,
-		// { headers: headers }
-	);
-	setIpfsHash(response.data.Hash)
-	uiConsole(response.data);
+	const decryptFromIPFS = async () => {
+		// fetch from ipfs using axios
+		let response = await axios.get(`https://ipfs.io/ipfs/${ipfsHash}`);
 
+		// decrypt the data
+		let decryptedData = await decryptImage(
+			response.data,
+			"thisisapasswordhello"
+		);
 
-};
+		setDecryptedBase64(decryptedData);
+		uiConsole("Done");
+	};
 
-  const uploadbase64toIPFS = async () => {
-	
-	
+	const uploadDecryptedbase64toIPFS = async () => {
 		// Set the headers for the request
 		let headers = {
 			// Accept: 'application/json',
@@ -119,19 +90,41 @@ const ProfileScreen: React.FC = () => {
 		};
 
 		const formData = new FormData();
-       	formData.append('string', bufferData);
+		formData.append("string", decryptedBase64);
 
 		//upload base64 string to ipfs
 		let response = await axios.post(
 			"http://127.0.0.1:5001/api/v0/add",
-			formData,
+			formData
 			// { headers: headers }
 		);
-		setIpfsHash(response.data.Hash)
+		setIpfsHash(response.data.Hash);
 		uiConsole(response.data);
+	};
 
+	const uploadbase64toIPFS = async () => {
+		// Set the headers for the request
+		let headers = {
+			// Accept: 'application/json',
+			"Content-Type": "application/json",
+			// Add your Infura API key and secret as authorization
+			Authorization:
+				"Basic " +
+				btoa("2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e")
+		};
 
-  };
+		const formData = new FormData();
+		formData.append("string", bufferData);
+
+		//upload base64 string to ipfs
+		let response = await axios.post(
+			"http://127.0.0.1:5001/api/v0/add",
+			formData
+			// { headers: headers }
+		);
+		setIpfsHash(response.data.Hash);
+		uiConsole(response.data);
+	};
 
 	const uploadImageToInfuraIPFS = async () => {
 		try {
@@ -264,43 +257,53 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Login with Web3Auth" onPress={login} />
 		</View>
 	);
-  
 
 	return (
 		<ScrollView>
-		<View>
-			{key ? loggedInView : unloggedInView}
-			<Button
-				title="Request Full Permission iOS"
-				onPress={requestIOSFullPermission}
-			/>
-			<Button
-				title="Request Read Permission Android"
-				onPress={requestAndroidGalleryReadPermission}
-			/>
-			<Button title="Get Library" onPress={getLibrary} />
-			<Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
-      <Button title="Encrypt" onPress={encryptData} />
-	  <Button title="base64ipfs" onPress={uploadbase64toIPFS} />
-			<Button title="Decrypt" onPress={decryptFromIPFS} />
-			<Button title="open URL" onPress={openURL} />
-			<Button title="Decrypted base 64 to ipfs" onPress={uploadDecryptedbase64toIPFS} />
-			<Text style={styles.consoleText}>URL: http://localhost:5001/ipfs/{ipfsHash}</Text>
-			<View style={styles.consoleArea}>
-				<Text style={styles.consoleText}>Console:</Text>
-				<ScrollView style={styles.console}>
-					<Text>{console}</Text>
-				</ScrollView>
+			<View>
+				{key ? loggedInView : unloggedInView}
+				<Button
+					title="Request Full Permission iOS"
+					onPress={requestIOSFullPermission}
+				/>
+				<Button
+					title="Request Read Permission Android"
+					onPress={requestAndroidGalleryReadPermission}
+				/>
+				<Button title="Get Library" onPress={getLibrary} />
+				<Button
+					title="Add Image to IPFS New"
+					onPress={uploadImageToInfuraIPFS}
+				/>
+				<Button title="Encrypt" onPress={encryptData} />
+				<Button title="base64ipfs" onPress={uploadbase64toIPFS} />
+				<Button title="Decrypt" onPress={decryptFromIPFS} />
+				<Button title="open URL" onPress={openURL} />
+				<Button
+					title="Decrypted base 64 to ipfs"
+					onPress={uploadDecryptedbase64toIPFS}
+				/>
+				<Text style={styles.consoleText}>
+					URL: http://localhost:5001/ipfs/{ipfsHash}
+				</Text>
+				<View style={styles.consoleArea}>
+					<Text style={styles.consoleText}>Console:</Text>
+					<ScrollView style={styles.console}>
+						<Text>{console}</Text>
+					</ScrollView>
+				</View>
+
+				{/* <Text>Buffer: {bufferData}</Text> */}
+
+				{/* <CustomButton /> */}
+				{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
+				{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
+				<Image
+					source={{ uri: `${decryptedBase64}` }}
+					resizeMode="cover"
+					style={{ width: 100, height: 100 }}
+				/>
 			</View>
-
-
-			{/* <Text>Buffer: {bufferData}</Text> */}
-
-			{/* <CustomButton /> */}
-			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
-			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
-			<Image  source={{ uri: `${decryptedBase64}` }} resizeMode="cover" style={{width: 100, height: 100}}  />
-		</View>
 		</ScrollView>
 	);
 };
