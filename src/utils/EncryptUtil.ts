@@ -25,22 +25,17 @@ export async function encryptImage(
 
     // const encryptedImage = CryptoJS.AES.encrypt("imageBase64.toString()", key).toString();
 
-	const encryptedImage = CryptoJS.AES.encrypt(imageBase64.toString(), key).toString();
+	const encryptedImage = await CryptoJS.AES.encrypt(imageBase64.toString(), key).toString();
 	return encryptedImage;
 	
 }
 
-// export async function decryptImage(
-// 	encryptedImage: string,
-// 	key: string
-// ): Promise<string> {
-// 	const decryptedImage = CryptoJS.AES.decrypt(encryptedImage, key).toString(
-// 		CryptoJS.enc.Utf8
-// 	);
-
-// 	const directoryPath = fs.DocumentDirectoryPath;
-// 	const imagePath = `${directoryPath}/decryptedImage.png`;
-
-// 	await fs.writeFile(imagePath, decryptedImage, "base64");
-// 	return imagePath;
-// }
+export async function decryptImage(
+	encryptedImage: string,
+	key: string
+): Promise<string> {
+	const decryptedImage = CryptoJS.AES.decrypt(encryptedImage, key).toString(
+		CryptoJS.enc.Base64
+	);
+	return decryptedImage;
+}

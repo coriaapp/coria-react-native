@@ -8,9 +8,10 @@ import {
 	ScrollView,
 	Platform,
 	Image,
+	Linking
 } from "react-native";
 import CustomButton from "../components/CustomButton";
-import { encryptImage } from "../utils/EncryptUtil";
+import { encryptImage, decryptImage } from "../utils/EncryptUtil";
 import * as WebBrowser from "@toruslabs/react-native-web-browser";
 import Web3Auth, {
 	LOGIN_PROVIDER,
@@ -47,34 +48,86 @@ const ProfileScreen: React.FC = () => {
 	const [photos, setPhotos] = useState<any[]>();
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
 	const [ bufferData, setbufferData ]= useState<string | ArrayBuffer>("");
+	const [ipfsHash, setIpfsHash] = useState<string | null>(null);
+	const [decryptedBase64, setDecryptedBase64] = useState<string | null>(null);
 
   const encryptData = async () => {	
 
-	const encryptedImage = await encryptImage(androidPhoto, "hello");
+	const encryptedImage = await encryptImage(androidPhoto, "thisisapasswordhello");
 
 	setbufferData(encryptedImage);
 
   };
+
+  const openURL = async () => {
+	Linking.openURL("https://ipfs.io/ipfs/" + ipfsHash);
+  };
   
+  const decryptFromIPFS = async () => {
+	// fetch from ipfs using axios
+	let response = await axios.get(
+		`https://ipfs.io/ipfs/${ipfsHash}`
+	);
+
+	// decrypt the data
+	let decryptedData = await decryptImage(response.data, "thisisapasswordhello");
+
+	setDecryptedBase64(decryptedData);
+	uiConsole("Done");
+
+  }
+
+  const uploadDecryptedbase64toIPFS = async () => {
+	
+	
+	// Set the headers for the request
+	let headers = {
+		// Accept: 'application/json',
+		"Content-Type": "application/json",
+		// Add your Infura API key and secret as authorization
+		Authorization:
+			"Basic " +
+			btoa("2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e")
+	};
+
+	const formData = new FormData();
+	   formData.append('string', decryptedBase64);
+
+	//upload base64 string to ipfs
+	let response = await axios.post(
+		"http://127.0.0.1:5001/api/v0/add",
+		formData,
+		// { headers: headers }
+	);
+	setIpfsHash(response.data.Hash)
+	uiConsole(response.data);
+
+
+};
+
   const uploadbase64toIPFS = async () => {
 	
 	
 		// Set the headers for the request
 		let headers = {
-			Accept: 'application/json',
-			"Content-Type": "multipart/form-data",
+			// Accept: 'application/json',
+			"Content-Type": "application/json",
 			// Add your Infura API key and secret as authorization
 			Authorization:
 				"Basic " +
 				btoa("2Rvg1x8VdW7CStns7hroA067KCW:2a013bb52024e4e3ace7c3af5e4d014e")
 		};
 
+		const formData = new FormData();
+       	formData.append('string', bufferData);
+
 		//upload base64 string to ipfs
 		let response = await axios.post(
-			"https://ipfs.infura.io:5001/api/v0/add",
-			{"string": bufferData},
-			{ headers: headers }
+			"http://127.0.0.1:5001/api/v0/add",
+			formData,
+			// { headers: headers }
 		);
+		setIpfsHash(response.data.Hash)
 		uiConsole(response.data);
 
 
@@ -211,16 +264,6 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Login with Web3Auth" onPress={login} />
 		</View>
 	);
-
-	/**
- * I write a litte util method to convert localIdentifier to assetURL in JavaScript
- * @param localIdentifier looks like 91B1C271-C617-49CE-A074-E391BA7F843F/L0/001
- * @param ext the extension: JPG, PNG, MOV
- * @returns {string}
- */
- const convertLocalIdentifierToAssetLibrary = () => {
-	return `assets-library://asset/asset.JPG?id=99D53A1F-FEEF-40E1-8BB3-7DD55A43C8B71&ext=JPG`;
-  };
   
 
 	return (
@@ -239,6 +282,10 @@ const ProfileScreen: React.FC = () => {
 			<Button title="Add Image to IPFS New" onPress={uploadImageToInfuraIPFS} />
       <Button title="Encrypt" onPress={encryptData} />
 	  <Button title="base64ipfs" onPress={uploadbase64toIPFS} />
+			<Button title="Decrypt" onPress={decryptFromIPFS} />
+			<Button title="open URL" onPress={openURL} />
+			<Button title="Decrypted base 64 to ipfs" onPress={uploadDecryptedbase64toIPFS} />
+			<Text style={styles.consoleText}>http://localhost:5001/ipfs/{ipfsHash}</Text>
 			<View style={styles.consoleArea}>
 				<Text style={styles.consoleText}>Console:</Text>
 				<ScrollView style={styles.console}>
@@ -252,6 +299,7 @@ const ProfileScreen: React.FC = () => {
 			{/* <CustomButton /> */}
 			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
 			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
+			<Image  source={{ uri: `data:image/PNG;base64,${decryptedBase64}` }} resizeMode="cover" style={{width: 100, height: 100}}  />
 		</View>
 		</ScrollView>
 	);
