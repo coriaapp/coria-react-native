@@ -10,7 +10,7 @@ import {
 	Image,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
-
+import { encryptImage } from "../utils/EncryptUtil";
 import * as WebBrowser from "@toruslabs/react-native-web-browser";
 import Web3Auth, {
 	LOGIN_PROVIDER,
@@ -35,11 +35,6 @@ import { PhotoGallery } from "react-native-photo-gallery-api";
 
 import axios from "axios";
 
-import CryptoJS from 'react-native-crypto-js';
-import RNFS from 'react-native-fs';
-import ReactNativeBlobUtil from 'react-native-blob-util'
-
-
 const scheme = "Catalyst"; // Or your desired app redirectiosetbufferDatan scheme
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 const clientId =
@@ -53,35 +48,12 @@ const ProfileScreen: React.FC = () => {
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
 	const [ bufferData, setbufferData ]= useState<string | ArrayBuffer>("");
 
-  const encryptData = async () => {
+  const encryptData = async () => {	
 
-	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
-	
-	// for iOS
-	// const dirPath = ReactNativeBlobUtil.fs.dirs;
-	// uiConsole(dirPath)
-	// const imageBase64 = await ReactNativeBlobUtil.fs.readFile(dirPath + '/data/Media/DCIM/100APPLE/IMG_0102.PNG', 'base64');
-	// uiConsole("Using URI: " + androidPhoto);
+	const encryptedImage = await encryptImage(androidPhoto, "hello");
 
-	// For Android
-	// const imageBase64 = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
-	// uiConsole("Using URI: " + androidPhoto);
+	setbufferData(encryptedImage);
 
-	fetch(androidPhoto).then((response) => {
-		response.blob().then((blob) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(blob);
-			reader.onloadend = () => {
-				const base64data = reader.result;
-				// uiConsole(base64data);
-				setbufferData(base64data);
-			};
-		}).then(() => {
-			uiConsole("Done")
-		});
-	});
-
-	// setbufferData(imageBase64);
   };
   
   const uploadbase64toIPFS = async () => {
@@ -279,7 +251,7 @@ const ProfileScreen: React.FC = () => {
 
 			{/* <CustomButton /> */}
 			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
-			<Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  />
+			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
 		</View>
 		</ScrollView>
 	);
