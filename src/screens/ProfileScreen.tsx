@@ -58,12 +58,30 @@ const ProfileScreen: React.FC = () => {
 	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
 	
 	// for iOS
-	// const dirPath = ReactNativeBlobUtil.fs.dirs.DocumentDir.split('data')[0];
-	// const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64');
-	
-	const imageBase64 = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
-	uiConsole("Using URI: " + androidPhoto);
-	setbufferData(imageBase64);
+	// const dirPath = ReactNativeBlobUtil.fs.dirs;
+	// uiConsole(dirPath)
+	// const imageBase64 = await ReactNativeBlobUtil.fs.readFile(dirPath + '/data/Media/DCIM/100APPLE/IMG_0102.PNG', 'base64');
+	// uiConsole("Using URI: " + androidPhoto);
+
+	// For Android
+	// const imageBase64 = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
+	// uiConsole("Using URI: " + androidPhoto);
+
+	fetch(androidPhoto).then((response) => {
+		response.blob().then((blob) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(blob);
+			reader.onloadend = () => {
+				const base64data = reader.result;
+				// uiConsole(base64data);
+				setbufferData(base64data);
+			};
+		}).then(() => {
+			uiConsole("Done")
+		});
+	});
+
+	// setbufferData(imageBase64);
   };
   
   const uploadbase64toIPFS = async () => {
@@ -81,7 +99,7 @@ const ProfileScreen: React.FC = () => {
 
 		//upload base64 string to ipfs
 		let response = await axios.post(
-			"http://localhost:5001/api/v0/add",
+			"https://ipfs.infura.io:5001/api/v0/add",
 			{"string": bufferData},
 			{ headers: headers }
 		);
@@ -158,7 +176,7 @@ const ProfileScreen: React.FC = () => {
 			// Include fileSize only for android since it's causing performance issues on IOS.
 			...(Platform.OS === "android" && { fileSize: true })
 		});
-		setAndroidPhoto(edges[1].node.image.uri);
+		setAndroidPhoto(edges[2].node.image.uri);
 		uiConsole(
 			`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
 		);
@@ -261,7 +279,7 @@ const ProfileScreen: React.FC = () => {
 
 			{/* <CustomButton /> */}
 			{/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
-			{/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
+			<Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  />
 		</View>
 		</ScrollView>
 	);
