@@ -4,6 +4,5 @@ export * from "./ImageFooter";
 export * from "./ImageHeader";
 export * from "./ImageItem";
 export * from "./ImageList";
-export * from "./RequestModal";
 export * from "./StatusBarManager";
 export * from "./core";

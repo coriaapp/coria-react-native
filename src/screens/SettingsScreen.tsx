@@ -1,9 +1,11 @@
 import React from "react";
-import { StyleSheet, View, useColorScheme, Appearance } from "react-native";
+import { StyleSheet, View, useColorScheme, Appearance, Platform } from "react-native";
 import { Text, VStack, HStack, Button } from "../components/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { isLightTheme } from "../utils/colorScheme";
 import CustomButton from "../components/CustomButton";
+
+const isAndroid: Boolean = Platform.OS === "android";
 
 const SettingsScreen: React.FC = () => {
   return (
@@ -19,15 +21,15 @@ const SettingsScreen: React.FC = () => {
             <VStack>
               <Text
                 size={"4xl"}
-                fontWeight={"$semibold"}
+                fontFamily="OpenSans-SemiBold"
                 color={isLightTheme ? "$textDark0" : "$textLight0"}
               >
                 Greetings,
               </Text>
               <Text
-                style={styles.textUnderline}
+                style={isAndroid ? styles.textUnderlineAndroid : styles.textUnderline}
                 size={"4xl"}
-                fontWeight={"$semibold"}
+                fontFamily="OpenSans-SemiBold"
                 color={isLightTheme ? "$textDark0" : "$textLight0"}
               >
                 John Doe
@@ -50,7 +52,11 @@ const styles = StyleSheet.create({
   },
   textUnderline: {
     textDecorationLine: "underline",
-    textDecorationColor: "#307AFF"
+    textDecorationColor: "#307AFF",
+  },
+  textUnderlineAndroid: {
+    textDecorationLine: "underline",
+    color: "#307AFF"
   }
 });
 

@@ -20,7 +20,7 @@ const CustomButton: React.FC = () => {
       sx={{
         ":pressed": { bg: "$violet50" }
       }}
-      rounded={30}
+      rounded={35}
     >
       {/* Complete Space between VStack elemnts */}
       <VStack space="30%">
@@ -36,12 +36,12 @@ const CustomButton: React.FC = () => {
         </HStack>
         <HStack>
           <VStack>
-            <Text color="white" fontWeight="$medium">
+            <Text fontFamily="OpenSans-SemiBold" color="white" fontWeight="$medium">
               John Doe
             </Text>
             <HStack space="53%">
-              <Text color="#999999" fontWeight="$medium" fontSize={"$sm"}>
-                Johndoe@gmail.com
+              <Text fontFamily="OpenSans-Regular" color="#999999" fontWeight="$medium" fontSize={"$sm"}>
+                johndoe@gmail.com
               </Text>
               <Icon as={ArrowRightIcon} color="#999999" size="lg" />
             </HStack>
