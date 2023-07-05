@@ -56,8 +56,11 @@ const ProfileScreen: React.FC = () => {
   const encryptData = async () => {
 
 	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
-
-	let dataChunk = '';
+	
+	// for iOS
+	// const dirPath = ReactNativeBlobUtil.fs.dirs.DocumentDir.split('data')[0];
+	// const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64');
+	
 	const imageBase64 = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
 	uiConsole("Using URI: " + androidPhoto);
 	setbufferData(imageBase64);
