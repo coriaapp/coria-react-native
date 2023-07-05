@@ -40,7 +40,7 @@ import RNFS from 'react-native-fs';
 import ReactNativeBlobUtil from 'react-native-blob-util'
 
 
-const scheme = "Catalyst"; // Or your desired app redirection scheme
+const scheme = "Catalyst"; // Or your desired app redirectiosetbufferDatan scheme
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 const clientId =
 	"BI69JyfHCVUbtwrqQqA8PcMhk82YZJbUYDrPJ5VKgqKPODvuSCP_vK1Qn3FhR1jtr5AO8Vb3IdRdtPLhzIbsXKU";
@@ -51,42 +51,25 @@ const ProfileScreen: React.FC = () => {
 	const [console, setConsole] = useState<string | null>(null);
 	const [photos, setPhotos] = useState<any[]>();
 	const [androidPhoto, setAndroidPhoto] = useState<string>("");
-	const [ bufferData, setbufferData ]= useState<string>("");
+	const [ bufferData, setbufferData ]= useState<string | ArrayBuffer>("");
 
   const encryptData = async () => {
 
-	
-
 	const imageUri = 'ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC' // '/Users/sangeetapapinwar/Library/Developer/CoreSimulator/Devices/66383014-C4AD-4B59-B358-F8C5001EB28B/data/Media/DCIM/100APPLE/IMG_0003.JPG'; // Replace with your image URI
 
-	// fetch(androidPhoto).then(res => {
-	// 	res.blob().then((blob) => {
-	// 		const reader = new FileReader();
-	// 		reader.readAsDataURL(blob); 
-	// 		reader.onloadend = () => {
-	// 			const base64data = reader.result;  
-	// 			setbufferData(base64data);
-	// 		}
-	// 	}).then(() => {
-	// 		uiConsole("done!")
-	// 	})
-	// })
-	
-
 	let dataChunk = '';
-	const dirPath = ReactNativeBlobUtil.fs.dirs.DocumentDir.split('data')[0];
-	const filePath = await ReactNativeBlobUtil.fs.readFile(dirPath + 'data/Media/DCIM/100APPLE/IMG_0006.HEIC', 'base64');
-	// const data = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
-	// uiConsole(filePath)
-	
+	const imageBase64 = await ReactNativeBlobUtil.fs.readFile(androidPhoto, 'base64');
+	uiConsole("Using URI: " + androidPhoto);
+	setbufferData(imageBase64);
   };
   
   const uploadbase64toIPFS = async () => {
 	
-	try {
+	
 		// Set the headers for the request
 		let headers = {
-			"Content-Type": "application/json",
+			Accept: 'application/json',
+			"Content-Type": "multipart/form-data",
 			// Add your Infura API key and secret as authorization
 			Authorization:
 				"Basic " +
@@ -95,15 +78,11 @@ const ProfileScreen: React.FC = () => {
 
 		//upload base64 string to ipfs
 		let response = await axios.post(
-			"https://ipfs.infura.io:5001/api/v0/add",
+			"http://localhost:5001/api/v0/add",
 			{"string": bufferData},
 			{ headers: headers }
 		);
 		uiConsole(response.data);
-	} catch (error) {
-		// Handle any errors
-		uiConsole("error");
-	}
 
 
   };
@@ -130,7 +109,7 @@ const ProfileScreen: React.FC = () => {
 			};
 			// Send a POST request to the Infura IPFS endpoint with the formData and headers
 			let response = await axios.post(
-				"https://ipfs.infura.io:5001/api/v0/add",
+				"http://localhost:5001/api/v0/add",
 				formData,
 				{ headers: headers }
 			);
@@ -144,7 +123,7 @@ const ProfileScreen: React.FC = () => {
 	};
 
 	const requestAndroidGalleryReadPermission = async () => {
-		const permission = PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE;
+		const permission = PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES;
 		const status = await PermissionsAndroid.request(permission);
 		uiConsole(`[Gallery][Permission] status: ${status}`);
 	};
@@ -176,9 +155,9 @@ const ProfileScreen: React.FC = () => {
 			// Include fileSize only for android since it's causing performance issues on IOS.
 			...(Platform.OS === "android" && { fileSize: true })
 		});
-		setAndroidPhoto(edges[1].node.image.uri + '/' + edges[1].node.image.filename);
+		setAndroidPhoto(edges[1].node.image.uri);
 		uiConsole(
-			`[Gallery][getPhotos] photoInfo: ${edges[5].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
+			`[Gallery][getPhotos] photoInfo: ${edges[1].node.image.uri}, DataType: ${edges[1].node.type}, FileName: ${edges[1].node.image.filename}`
 		);
 	};
 
