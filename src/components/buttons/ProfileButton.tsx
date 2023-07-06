@@ -16,7 +16,7 @@ const ProfileButton: React.FC = () => {
       id="security"
       p="$3"
       bg="#191919"
-      w="100%" 
+      w="100%"
       h="100%"
       rounded={40}
       onPress={() => console.log("Profile Button Pressed")}
