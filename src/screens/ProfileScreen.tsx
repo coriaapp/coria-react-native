@@ -10,7 +10,7 @@ import {
   Image,
   Linking
 } from "react-native";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../components/buttons/ProfileButton";
 import { encryptImage, decryptImage } from "../utils/EncryptUtil";
 import * as WebBrowser from "@toruslabs/react-native-web-browser";
 import Web3Auth, {

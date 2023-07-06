@@ -74,6 +74,9 @@ export default styled(
         },
         "53%": {
           width: `53%`
+        },
+        "54%": {
+          width: `54%`
         }
       }
     }

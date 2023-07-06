@@ -4,14 +4,13 @@ import { GluestackUIProvider } from "./src/components";
 import { config } from "./gluestack-ui.config";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SettingsScreen from "./src/screens/SettingsScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
 
 const App: React.FC = () => {
   return (
     <GluestackUIProvider config={config.theme}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <ProfileScreen />
+          <SettingsScreen />
         </NavigationContainer>
       </SafeAreaProvider>
     </GluestackUIProvider>
