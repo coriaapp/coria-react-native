@@ -12,20 +12,18 @@ import {
 
 const ProfileButton: React.FC = () => {
   return (
-    <Box
+    <Pressable
       id="security"
-      p="$5"
+      p="$3"
       bg="#191919"
-      width={"100%"}
-      height="100%"
-      sx={{
-        ":pressed": { bg: "$violet50" }
-      }}
-      rounded={35}
+      w="100%" 
+      h="100%"
+      rounded={40}
+      onPress={() => console.log("Profile Button Pressed")}
     >
       {/* Complete Space between VStack elemnts */}
-      <VStack space="30%">
-        <HStack>
+      <VStack space="30%" pl="$3">
+        <HStack pt="$2">
           <Avatar bgColor="#194E8B" size="lg" borderRadius="$full">
             <Avatar.FallbackText></Avatar.FallbackText>
             <Avatar.Image
@@ -35,8 +33,8 @@ const ProfileButton: React.FC = () => {
             />
           </Avatar>
         </HStack>
-        <HStack>
-          <VStack>
+        <HStack w="100%">
+          <VStack w="100%">
             <Text
               fontFamily="OpenSans-SemiBold"
               color="white"
@@ -44,7 +42,7 @@ const ProfileButton: React.FC = () => {
             >
               John Doe
             </Text>
-            <HStack space="54%">
+            <HStack w="100%" justifyContent="space-between" pr="$3">
               <Text
                 fontFamily="OpenSans-Regular"
                 color="#999999"
@@ -57,7 +55,7 @@ const ProfileButton: React.FC = () => {
           </VStack>
         </HStack>
       </VStack>
-    </Box>
+    </Pressable>
   );
 };
 

@@ -55,6 +55,20 @@ export default styled(
           }
         },
 
+        xmd: {
+          w: "$14",
+          h: "$14",
+
+          _badge: {
+            w: "$4",
+            h: "$4"
+          },
+
+          _text: {
+            fontSize: "$xl"
+          }
+        },
+
         lg: {
           w: "$16",
           h: "$16",

@@ -15,7 +15,7 @@ import {
   StyleSheet,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  NativeMethodsMixin
+  NativeMethods
 } from "react-native";
 
 import useImageDimensions from "../../hooks/useImageDimensions";
@@ -50,7 +50,7 @@ const ImageItem = ({
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true
 }: Props) => {
-  const imageContainer = useRef<ScrollView & NativeMethodsMixin>(null);
+  const imageContainer = useRef<ScrollView & NativeMethods>(null);
   const imageDimensions = useImageDimensions(imageSrc);
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);

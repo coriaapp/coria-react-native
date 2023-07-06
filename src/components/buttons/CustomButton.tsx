@@ -5,57 +5,40 @@ import {
   HStack,
   VStack,
   Avatar,
-  Icon,
   ArrowRightIcon,
+  LockIcon,
   Box
 } from "../core";
+import { ArrowRight, Unlock } from 'lucide-react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 const CustomButton: React.FC = () => {
   return (
-    <Box
-      p="$5"
+    <Pressable
+      id="security"
+      p="$3"
       bg="#191919"
-      width={"100%"}
-      height={"100%"}
-      sx={{
-        ":pressed": { bg: "$violet50" }
-      }}
-      rounded={35}
+      w="100%" 
+      h="100%"
+      rounded={40}
+      onPress={() => console.log("Profile Button Pressed")}
     >
-      <VStack space="30%">
-        <HStack>
-          <Avatar bgColor="#194E8B" size="lg" borderRadius="$full">
-            <Avatar.FallbackText></Avatar.FallbackText>
-            <Avatar.Image
-              source={{
-                uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
-              }}
-            />
-          </Avatar>
+      <VStack h="100%" justifyContent="space-between">
+        <HStack  bg="$black" h="$11" w="$11" rounded={50} justifyContent="center" m="$3" >
+          {/* <Icon name="lock" color={"white"} size={18} style={{marginTop: 10}}/> */}
+          <Icon name="sync-alt" color={"white"} size={18} style={{marginTop: 10}}/>
         </HStack>
-        <HStack>
-          <VStack>
-            <Text
-              fontFamily="OpenSans-SemiBold"
-              color="white"
-              fontWeight="$semibold"
-            >
-              John Doe
-            </Text>
-            <HStack space="53%">
-              <Text
-                fontFamily="OpenSans-Regular"
-                color="#999999"
-                fontSize={"$sm"}
-              >
-                johndoe@gmail.com
-              </Text>
-              <Icon as={ArrowRightIcon} color="#999999" size="lg" />
-            </HStack>
-          </VStack>
+        
+
+        <HStack w="100%" justifyContent="space-between" p="$3" pb="$4">
+          <Text color="white" fontFamily="OpenSans-Medium" fontWeight="$medium">Security </Text>
+          <ArrowRightIcon color="white" />
         </HStack>
+        
       </VStack>
-    </Box>
+
+    </Pressable>
   );
 };
 
