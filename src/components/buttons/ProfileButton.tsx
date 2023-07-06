@@ -22,7 +22,7 @@ const ProfileButton: React.FC = () => {
       onPress={() => console.log("Profile Button Pressed")}
     >
       {/* Complete Space between VStack elemnts */}
-      <VStack space="30%" pl="$3">
+      <VStack pl="$3" pb="$1.5" h="100%" justifyContent="space-between">
         <HStack pt="$2">
           <Avatar bgColor="#194E8B" size="lg" borderRadius="$full">
             <Avatar.FallbackText></Avatar.FallbackText>

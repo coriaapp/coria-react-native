@@ -26,8 +26,8 @@ const CustomButton: React.FC = () => {
     >
       <VStack h="100%" justifyContent="space-between">
         <HStack  bg="$black" h="$11" w="$11" rounded={50} justifyContent="center" m="$3" >
-          {/* <Icon name="lock" color={"white"} size={18} style={{marginTop: 10}}/> */}
-          <Icon name="sync-alt" color={"white"} size={18} style={{marginTop: 10}}/>
+          {/* <Icon name="lock" color={"white"} size={18} style={{marginTop: 12}}/> */}
+          <Icon name="sync-alt" color={"white"} size={18} style={{marginTop: 12}}/>
         </HStack>
         
 
