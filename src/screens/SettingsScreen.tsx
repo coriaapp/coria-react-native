@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, View, useColorScheme, Appearance, Platform } from "react-native";
-import { Text, VStack, HStack, Button } from "../components/core";
+import { Text, VStack, HStack } from "../components/core";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { isLightTheme } from "../utils/colorScheme";
 import CustomButton from "../components/CustomButton";
+import TopBar from "../components/TopBar";
 
 const isAndroid: Boolean = Platform.OS === "android";
 
@@ -16,15 +17,16 @@ const SettingsScreen: React.FC = () => {
           backgroundColor: isLightTheme ? "white" : "black"
         }}
       >
+        {/* <TopBar /> */}
         <VStack>
-          <HStack pl="$4">
+          <HStack pl="$4" pt={15}>
             <VStack>
               <Text
                 size={"4xl"}
                 fontFamily="OpenSans-SemiBold"
                 color={isLightTheme ? "$textDark0" : "$textLight0"}
               >
-                Greetings,
+                Good morning,
               </Text>
               <Text
                 style={isAndroid ? styles.textUnderlineAndroid : styles.textUnderline}
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     textDecorationColor: "#307AFF",
   },
   textUnderlineAndroid: {
-    textDecorationLine: "underline",
+    textDecorationLine: undefined,
     color: "#307AFF"
   }
 });
