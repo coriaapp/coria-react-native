@@ -12,17 +12,42 @@ const isAndroid: Boolean = Platform.OS === "android";
 const SettingsScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ backgroundColor: isLightTheme ? "white" : "black" }}>
-      <Box h="100%" justifyContent="center">
-        <VStack space="xs" reversed={false}>
-          <Box w="100%" h="25%" bg="$blue300" />
-          <Box w="100%" h="24%" bg="$blue400" />
-          <Box w="100%" h="48%">
+      <Box h="100%">
+        <VStack space="xs" reversed={false} >
+          <Box w="100%" h="20%" justifyContent="flex-end" pl="$3" pb="$4">
+            <Text
+                size={"4xl"}
+                fontFamily="OpenSans-SemiBold"
+                color={isLightTheme ? "$textDark0" : "$textLight0"}
+              >
+                Good morning,
+              </Text>
+              <Text
+                style={isAndroid ? styles.textUnderlineAndroid : styles.textUnderline}
+                size={"4xl"}
+                fontFamily="OpenSans-SemiBold"
+                color={isLightTheme ? "$textDark0" : "$textLight0"}
+              >
+                Ryan
+              </Text>
+          </Box>
+          <Box w="100%" h="27%">
+            <ProfileButton />
+          </Box>
+
+          <Box w="100%" h="50%">
             <HStack space="xs" reversed={false} h="100%">
               <VStack w="50%" h="100%" space="xs">
-                <Box w="100%" h="49%" bg="$orange400" />
-                <Box w="100%" h="50%" bg="$orange200" />
+                <Box w="100%" h="49%" >
+                  <CustomButton />
+                  </Box>
+                <Box w="100%" h="50%">
+                  <CustomButton />
+                </Box>
               </VStack>
-              <Box w="50%" h="100%" bg="$blue400" />
+              <Box w="50%" h="100%">
+                <CustomButton />
+              </Box>
             </HStack>
           </Box>
         </VStack>
