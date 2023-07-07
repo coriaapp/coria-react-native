@@ -23,7 +23,8 @@ import RPC from "../ethersRPC"; // for using ethers.js
 import {
   AppState,
   PermissionsAndroid,
-  EmitterSubscription
+  EmitterSubscription,
+  SafeAreaView
 } from "react-native";
 import {
   AccessLevel,
@@ -259,6 +260,7 @@ const ProfileScreen: React.FC = () => {
   );
 
   return (
+    <SafeAreaView>
     <ScrollView>
       <View>
         {key ? loggedInView : unloggedInView}
@@ -305,6 +307,7 @@ const ProfileScreen: React.FC = () => {
         />
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

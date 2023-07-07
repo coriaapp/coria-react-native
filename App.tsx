@@ -8,13 +8,13 @@ import ProfileScreen from "./src/screens/ProfileScreen";
 
 const App: React.FC = () => {
   return (
-    <GluestackUIProvider config={config.theme}>
       <SafeAreaProvider>
+    <GluestackUIProvider config={config.theme}>
         <NavigationContainer>
           <ProfileScreen />
         </NavigationContainer>
-      </SafeAreaProvider>
     </GluestackUIProvider>
+      </SafeAreaProvider>
   );
 };
 
