@@ -40,6 +40,7 @@
     "@react-native-google-signin/google-signin": "^10.0.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
     "@toruslabs/react-native-web-browser": "^1.1.0",
     "@types/crypto-js": "^4.1.1",
     "@types/react-native-crypto-js": "^1.0.0",

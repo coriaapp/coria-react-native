@@ -1,31 +1,104 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { isLightTheme } from "../utils/colorScheme";
+import { VStack, HStack, Box, Image, Button } from "../components/core";
+import { dimensions } from "../utils/dimensions";
+import { PhotoGallery } from "react-native-photo-gallery-api";
 
-const HomeScreen: React.FC = () => {
-  return <Text style={styles.text}>Home Screen</Text>;
+const HomeScreen = ({navigation}) => {
+  
+  const [photos, setPhotos] = useState<any[]>([]);
+
+  const getLibrary = async () => {
+    const supportedMimeTypesByTheBackEnd = [
+      "image/jpeg",
+      "image/png",
+      "image/heif",
+      "image/heic",
+      "image/heif-sequence",
+      "image/heic-sequence"
+    ];
+    const pageSize = 30;
+    const mimeTypeFilter = supportedMimeTypesByTheBackEnd;
+    const { edges, page_info } = await PhotoGallery.getPhotos({
+      first: !photos || photos.length < pageSize ? pageSize : photos.length,
+      assetType: "Photos",
+      mimeTypes: mimeTypeFilter,
+      // Include fileSize only for android since it's causing performance issues on IOS.
+      ...(Platform.OS === "android" && { fileSize: true })
+    });
+    setPhotos(edges);
+    setPhotos(photos => [...photos, ...edges])
+  };
+
+
+  React.useEffect(() => {
+    getLibrary();
+  }, []);
+
+  return (
+    // <SafeAreaView style={styles.safeArea}>
+        <VStack h={dimensions.windowHeight} w={dimensions.windowWidth} space="md">
+      <ScrollView style={styles.safeArea}>
+        <Box w={dimensions.windowWidth} h={dimensions.windowWidth * 0.27} />
+          <Button onPress={() => navigation.navigate("Settings")}>
+            <Text>
+              Go to Settings
+            </Text>
+          </Button>
+          {photos.map((photo, index) => {
+            return (
+              <HStack
+                key={index}
+                justifyContent="space-around"
+                h={dimensions.windowWidth * 0.32}
+                w={dimensions.windowWidth}
+                pt="$1"
+              >
+                <Box w={dimensions.windowWidth * 0.33} h="100%">
+                  <Image
+                    h="100%"
+                    w="100%"
+                    source={{
+                      uri: photo.node.image.uri,
+                    }}
+                    rounded={"$xl"}
+                  />
+                </Box>
+                <Box w={dimensions.windowWidth * 0.32} h="100%">
+                  <Image
+                    h="100%"
+                    w="100%"
+                    source={{
+                      uri: photo.node.image.uri,
+                    }}
+                    rounded={"$xl"}
+                  />
+                </Box>
+                <Box w={dimensions.windowWidth * 0.32} h="100%">
+                  <Image
+                    h="100%"
+                    w="100%"
+                    source={{
+                      uri: photo.node.image.uri,
+                    }}
+                    rounded={"$xl"}
+                  />
+                </Box>
+              </HStack>
+            );
+          })}
+      </ScrollView>
+        </VStack>
+    // {/* </SafeAreaView> */}
+  );
 };
 
-{
-  /* <ScrollView w="100%" h="80" alignContent="center">
-      <VStack  space="1">
-        <HStack  space="3">
-          <Center bg="primary.400" size="120"></Center>
-          <Center bg="secondary.400" size="120"></Center>
-          <Center bg="emerald.400" size="120"></Center>
-        </HStack>
-      </VStack>
-    </ScrollView> */
-}
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold"
+  safeArea: {
+    backgroundColor: isLightTheme ? "white" : "black",
+    height: "100%"
   }
 });
 

@@ -6,6 +6,9 @@ export default styled(
   {
     variants: {
       size: {
+        xxs: {
+          height: `$0.5`
+        },
         xs: {
           height: `$1`
         },

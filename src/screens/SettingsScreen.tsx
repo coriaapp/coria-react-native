@@ -13,8 +13,8 @@ const SettingsScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ backgroundColor: isLightTheme ? "white" : "black" }}>
       <Box h="100%">
-        <VStack space="xs" reversed={false}>
-          <Box w="100%" h="20%" justifyContent="flex-end" pl="$3" pb="$4">
+        <VStack space="xs" reversed={false} h="100%">
+          <Box w="100%" h="12%" justifyContent="flex-end" pl="$3" pb="$4">
             <Text
               size={"4xl"}
               fontFamily="OpenSans-SemiBold"
@@ -33,11 +33,11 @@ const SettingsScreen: React.FC = () => {
               Ryan
             </Text>
           </Box>
-          <Box w="100%" h="27%">
+          <Box w="100%" h="30%">
             <ProfileButton />
           </Box>
 
-          <Box w="100%" h="50%">
+          <Box w="100%" h="57%">
             <HStack space="xs" reversed={false} h="100%">
               <VStack w="50%" h="100%" space="xs">
                 <Box w="100%" h="49%">
