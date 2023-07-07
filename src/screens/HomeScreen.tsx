@@ -9,6 +9,7 @@ import { PhotoGallery } from "react-native-photo-gallery-api";
 const HomeScreen = ({navigation}) => {
   
   const [photos, setPhotos] = useState<any[]>([]);
+  const isAndroid: Boolean = Platform.OS === "android";
 
   const getLibrary = async () => {
     const supportedMimeTypesByTheBackEnd = [
@@ -30,6 +31,7 @@ const HomeScreen = ({navigation}) => {
     });
     setPhotos(edges);
     setPhotos(photos => [...photos, ...edges])
+    console.log(edges[0]);
   };
 
 
@@ -41,7 +43,7 @@ const HomeScreen = ({navigation}) => {
     // <SafeAreaView style={styles.safeArea}>
         <VStack h={dimensions.windowHeight} w={dimensions.windowWidth} space="md">
       <ScrollView style={styles.safeArea}>
-        <Box w={dimensions.windowWidth} h={dimensions.windowWidth * 0.27} />
+        <Box w={dimensions.windowWidth} h={dimensions.windowWidth * (isAndroid? 0.15 : 0.27)}/>
           <Button onPress={() => navigation.navigate("Settings")}>
             <Text>
               Go to Settings
