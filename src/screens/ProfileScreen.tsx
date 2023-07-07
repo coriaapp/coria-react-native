@@ -36,7 +36,7 @@ import { PhotoGallery } from "react-native-photo-gallery-api";
 
 import axios from "axios";
 
-const scheme = "Catalyst"; // Or your desired app redirectiosetbufferDatan scheme
+const scheme = "com.catalyst"; // Or your desired app redirectiosetbufferDatan scheme
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 const clientId =
   "BI69JyfHCVUbtwrqQqA8PcMhk82YZJbUYDrPJ5VKgqKPODvuSCP_vK1Qn3FhR1jtr5AO8Vb3IdRdtPLhzIbsXKU";
