@@ -17,7 +17,7 @@ const NestedScreen = ({ route }: NestedScreenProps) => {
   return (
     <Box h="100%" w="100%" backgroundColor={isLightTheme ? "white": "black"}>
         <ImageZoom
-          uri={route.params.msg}
+          uri={route.params.msg.image.uri}
           minScale={0}
           maxScale={10}
           onInteractionStart={() => console.log("Interaction started")}
