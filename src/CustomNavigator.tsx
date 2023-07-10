@@ -29,6 +29,7 @@ const FirstScreenNavigator: React.FC = () => {
                 headerStyle: {
                   backgroundColor: isAndroid? "black" : "transparent"
                 },
+                
               }}
             />
             <Stack.Screen
@@ -39,7 +40,7 @@ const FirstScreenNavigator: React.FC = () => {
                 headerStyle: {
                   backgroundColor: isLightTheme ? "white" : "black"
                 },
-                headerTintColor: isLightTheme ? "black" : "white",
+                headerTintColor: "systemBlue",
               }}
             />
           </Stack.Navigator>
