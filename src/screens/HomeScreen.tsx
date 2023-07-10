@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { isLightTheme } from "../utils/colorScheme";
@@ -6,8 +6,7 @@ import { VStack, HStack, Box, Image, Button } from "../components/core";
 import { dimensions } from "../utils/dimensions";
 import { PhotoGallery } from "react-native-photo-gallery-api";
 
-const HomeScreen = ({navigation}) => {
-  
+const HomeScreen = ({ navigation }) => {
   const [photos, setPhotos] = useState<any[]>([]);
   const isAndroid: Boolean = Platform.OS === "android";
 
@@ -30,10 +29,9 @@ const HomeScreen = ({navigation}) => {
       ...(Platform.OS === "android" && { fileSize: true })
     });
     setPhotos(edges);
-    setPhotos(photos => [...photos, ...edges])
+    setPhotos((photos) => [...photos, ...edges]);
     console.log(edges[0]);
   };
-
 
   React.useEffect(() => {
     getLibrary();
@@ -41,58 +39,59 @@ const HomeScreen = ({navigation}) => {
 
   return (
     // <SafeAreaView style={styles.safeArea}>
-        <VStack h={dimensions.windowHeight} w={dimensions.windowWidth} space="md">
+    <VStack h={dimensions.windowHeight} w={dimensions.windowWidth} space="md">
       <ScrollView style={styles.safeArea}>
-        <Box w={dimensions.windowWidth} h={dimensions.windowWidth * (isAndroid? 0.15 : 0.27)}/>
-          <Button onPress={() => navigation.navigate("Settings")}>
-            <Text>
-              Go to Settings
-            </Text>
-          </Button>
-          {photos.map((photo, index) => {
-            return (
-              <HStack
-                key={index}
-                justifyContent="space-around"
-                h={dimensions.windowWidth * 0.32}
-                w={dimensions.windowWidth}
-                pt="$1"
-              >
-                <Box w={dimensions.windowWidth * 0.33} h="100%">
-                  <Image
-                    h="100%"
-                    w="100%"
-                    source={{
-                      uri: photo.node.image.uri,
-                    }}
-                    rounded={"$xl"}
-                  />
-                </Box>
-                <Box w={dimensions.windowWidth * 0.32} h="100%">
-                  <Image
-                    h="100%"
-                    w="100%"
-                    source={{
-                      uri: photo.node.image.uri,
-                    }}
-                    rounded={"$xl"}
-                  />
-                </Box>
-                <Box w={dimensions.windowWidth * 0.32} h="100%">
-                  <Image
-                    h="100%"
-                    w="100%"
-                    source={{
-                      uri: photo.node.image.uri,
-                    }}
-                    rounded={"$xl"}
-                  />
-                </Box>
-              </HStack>
-            );
-          })}
+        <Box
+          w={dimensions.windowWidth}
+          h={dimensions.windowWidth * (isAndroid ? 0.15 : 0.27)}
+        />
+        <Button onPress={() => navigation.navigate("NestedScreen", {msg:"From Home screen"})}>
+          <Text>Go to Settings</Text>
+        </Button>
+        {photos.map((photo, index) => {
+          return (
+            <HStack
+              key={index}
+              justifyContent="space-around"
+              h={dimensions.windowWidth * 0.32}
+              w={dimensions.windowWidth}
+              pt="$1"
+            >
+              <Box w={dimensions.windowWidth * 0.33} h="100%">
+                <Image
+                  h="100%"
+                  w="100%"
+                  source={{
+                    uri: photo.node.image.uri
+                  }}
+                  rounded={"$xl"}
+                />
+              </Box>
+              <Box w={dimensions.windowWidth * 0.32} h="100%">
+                <Image
+                  h="100%"
+                  w="100%"
+                  source={{
+                    uri: photo.node.image.uri
+                  }}
+                  rounded={"$xl"}
+                />
+              </Box>
+              <Box w={dimensions.windowWidth * 0.32} h="100%">
+                <Image
+                  h="100%"
+                  w="100%"
+                  source={{
+                    uri: photo.node.image.uri
+                  }}
+                  rounded={"$xl"}
+                />
+              </Box>
+            </HStack>
+          );
+        })}
       </ScrollView>
-        </VStack>
+    </VStack>
     // {/* </SafeAreaView> */}
   );
 };
