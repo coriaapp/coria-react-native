@@ -1,11 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, ActivityIndicator, Image } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { isLightTheme } from "../utils/colorScheme";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { Box } from "../components/core";
-import Modal from "react-native-modal";
-import FastImage from "react-native-fast-image";
-import { createImageProgress } from "react-native-image-progress";
+import { Box, Image } from "../components/core";
+// import FastImage from "react-native-fast-image";
+// import { createImageProgress } from "react-native-image-progress";
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 
 type NestedScreenProps = {
@@ -14,6 +13,8 @@ type NestedScreenProps = {
       msg: {
         image: {
           uri: string;
+          width: number;
+          height: number;
         };
       }
     };
@@ -21,17 +22,7 @@ type NestedScreenProps = {
 };
 
 const NestedScreen = ({ route }: NestedScreenProps) => {
-  const Image = createImageProgress(FastImage)
-  const renderImage = ({ source, style }) => {
-    return (
-        <Image
-            source={{ uri: source?.uri, priority: 'high' }}
-            style={style}
-            resizeMode="contain"
-            indicator={renderLoading}
-        />
-    )
-}
+  // const Image = createImageProgress(FastImage)
 
 const renderLoading = () => {
   return (<ActivityIndicator color={'white'} size={'large'} />)
@@ -45,16 +36,18 @@ const renderLoading = () => {
           // dimensions when it's rendered naturally. Not the intrinsic size.
           // For example, an image with an intrinsic size of 400x200 will be rendered as 300x150 in this case.
           // Therefore, we'll feed the zoomable view the 300x150 size.
-          contentWidth={500}
-          contentHeight={500}
+          contentWidth={route.params.msg.image.width}
+          contentHeight={route.params.msg.image.height}
         >
-          {
-            console.log(route.params.msg.image)
-          }
-          <Image
-            style={{ width: '100%', height: '100%' }}
-            source={{ uri: "ph://9F983DBA-EC35-42B8-8773-B597CF782EDD/L0/001/IMG_0003.JPG" }}
-          />
+        
+ 
+        <Image
+            source={{ uri: route.params.msg.image.uri }}
+            style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+            // resizeMode="contain"
+            // indicator={renderLoading}
+        />
+           
         </ReactNativeZoomableView>
 
       {/* <ImageViewer
