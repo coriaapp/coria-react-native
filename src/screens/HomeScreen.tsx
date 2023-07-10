@@ -29,7 +29,6 @@ const HomeScreen = ({ navigation }) => {
       ...(Platform.OS === "android" && { fileSize: true })
     });
     setPhotos(edges);
-    // setPhotos((photos) => [...photos, ...edges]);
   };
 
   React.useEffect(() => {
@@ -43,13 +42,9 @@ const HomeScreen = ({ navigation }) => {
         <Box
           w={dimensions.windowWidth}
           h={dimensions.windowWidth * (isAndroid ? 0.15 : 0.27)}
-        />    
+        />     
 
-        {
-          console.log(photos.length)
-        }    
-
-        {[...Array((photos.length / 3)).keys()].map((number, index) => {
+        {(photos.length > 0) && [...Array((photos.length ?? 3 / 3)).keys()].map((number, index) => {
           return (
             <HStack
               key={index}
@@ -59,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
               pt="$0.5"
             >
               <Box w={dimensions.windowWidth * 0.33} h="100%">
-                <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[index].node.image.uri})}>
+                <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[3 * index + 0]?.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
@@ -71,7 +66,7 @@ const HomeScreen = ({ navigation }) => {
                 
               </Box>
               <Box w={dimensions.windowWidth * 0.33} h="100%">
-              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[(index + 1) % photos.length].node.image.uri})}>
+              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[(3 * index + 1)]?.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
@@ -82,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
                 </Pressable>
               </Box>
               <Box w={dimensions.windowWidth * 0.33} h="100%">
-              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[(index + 2) % photos.length].node.image.uri})}>
+              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photos[3 * index + 2]?.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
