@@ -8,7 +8,7 @@ import PhotosScreen from "./screens/PhotosScreen";
 import { isLightTheme } from "./utils/colorScheme";
 import { Platform, Alert } from "react-native";
 import { Pressable } from "./components/core";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const isAndroid: Boolean = Platform.OS === "android";
 
@@ -104,7 +104,7 @@ const FirstScreenNavigator: React.FC = () => {
               }}
             >
               <Icon
-                name="info-circle"
+                name="information-circle-outline"
                 color={"white"}
                 size={24}
                 style={{ marginTop: 12 }}

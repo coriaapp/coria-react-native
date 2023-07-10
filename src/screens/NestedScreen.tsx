@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Image } from "../components/core";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { isLightTheme } from "../utils/colorScheme";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Box } from "../components/core";
+import ImageViewer from 'react-native-image-zoom-viewer';
+import Modal from "react-native-modal";
+import FastImage from "react-native-fast-image";
+import { createImageProgress } from "react-native-image-progress";
 
 type NestedScreenProps = {
   route: {
@@ -14,9 +17,34 @@ type NestedScreenProps = {
 };
 
 const NestedScreen = ({ route }: NestedScreenProps) => {
+  const Image = createImageProgress(FastImage)
+  const renderImage = ({ source, style }) => {
+    return (
+        <Image
+            source={{ uri: source?.uri, priority: 'high' }}
+            style={style}
+            resizeMode="contain"
+            indicator={renderLoading}
+        />
+    )
+}
+
+const renderLoading = () => {
+  return (<ActivityIndicator color={'white'} size={'large'} />)
+}
   return (
     <Box h="100%" w="100%" backgroundColor={isLightTheme ? "white": "black"}>
-        <ImageZoom
+      <ImageViewer
+                enablePreload={true}
+                imageUrls={[{ url: route.params.msg.image.uri }]}
+                useNativeDriver={true}
+                enableSwipeDown={false}
+                renderImage={renderImage}
+                loadingRender={renderLoading}
+                saveToLocalByLongPress={false}
+             />
+
+        {/* <ImageZoom
           uri={route.params.msg.image.uri}
           minScale={0}
           maxScale={10}
@@ -28,7 +56,7 @@ const NestedScreen = ({ route }: NestedScreenProps) => {
           onPanEnd={() => console.log("Pan gesture ended")}
           renderLoader={() => <Text>Loading...</Text>}
           backgroundColor={isLightTheme ? "white": "black"}
-        />
+        /> */}
         </Box> 
   );
 };
