@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { isLightTheme } from "../utils/colorScheme";
-import { VStack, HStack, Box, Image, Button } from "../components/core";
+import { VStack, HStack, Box, Image, Button, Pressable } from "../components/core";
 import { dimensions } from "../utils/dimensions";
 import { PhotoGallery } from "react-native-photo-gallery-api";
 
@@ -45,9 +45,6 @@ const HomeScreen = ({ navigation }) => {
           w={dimensions.windowWidth}
           h={dimensions.windowWidth * (isAndroid ? 0.15 : 0.27)}
         />
-        <Button onPress={() => navigation.navigate("NestedScreen", {msg:"From Home screen"})}>
-          <Text>Go to Settings</Text>
-        </Button>
         {photos.map((photo, index) => {
           return (
             <HStack
@@ -55,37 +52,41 @@ const HomeScreen = ({ navigation }) => {
               justifyContent="space-around"
               h={dimensions.windowWidth * 0.32}
               w={dimensions.windowWidth}
-              pt="$1"
+              pt="$0.5"
             >
               <Box w={dimensions.windowWidth * 0.33} h="100%">
+                <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photo.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
                   source={{
                     uri: photo.node.image.uri
                   }}
-                  rounded={"$xl"}
                 />
+                </Pressable>
+                
               </Box>
-              <Box w={dimensions.windowWidth * 0.32} h="100%">
+              <Box w={dimensions.windowWidth * 0.33} h="100%">
+              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photo.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
                   source={{
                     uri: photo.node.image.uri
                   }}
-                  rounded={"$xl"}
                 />
+                </Pressable>
               </Box>
-              <Box w={dimensions.windowWidth * 0.32} h="100%">
+              <Box w={dimensions.windowWidth * 0.33} h="100%">
+              <Pressable onPress={() => navigation.navigate("NestedScreen", {msg:photo.node.image.uri})}>
                 <Image
                   h="100%"
                   w="100%"
                   source={{
                     uri: photo.node.image.uri
                   }}
-                  rounded={"$xl"}
                 />
+                </Pressable>
               </Box>
             </HStack>
           );

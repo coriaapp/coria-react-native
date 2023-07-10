@@ -6,6 +6,9 @@ import ProfileScreen from "./screens/ProfileScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PhotosScreen from "./screens/PhotosScreen";
 import { isLightTheme } from "./utils/colorScheme";
+import { Platform } from "react-native";
+
+const isAndroid: Boolean = Platform.OS === "android";
 
 const Stack = createNativeStackNavigator(); 
 
@@ -20,10 +23,11 @@ const FirstScreenNavigator: React.FC = () => {
                 headerTitleStyle: {
                   color: isLightTheme ? "black" : "white"
                 },
+                headerTitleAlign: "center",
                 headerTransparent: true,
                 headerBlurEffect: "regular",
                 headerStyle: {
-                  backgroundColor: "transparent"
+                  backgroundColor: isAndroid? "black" : "transparent"
                 },
               }}
             />
@@ -34,7 +38,8 @@ const FirstScreenNavigator: React.FC = () => {
                 title: "",
                 headerStyle: {
                   backgroundColor: isLightTheme ? "white" : "black"
-                }
+                },
+                headerTintColor: isLightTheme ? "black" : "white",
               }}
             />
           </Stack.Navigator>
@@ -46,7 +51,7 @@ export { FirstScreenNavigator }; // Stack-Navigator for Screen 1 Tab
 const SecondScreenNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
-    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+    <Stack.Screen name="ProfileScreen" component={PhotosScreen} />
     <Stack.Screen name="NestedScreen" component={NestedScreen} />
   </Stack.Navigator>
   );

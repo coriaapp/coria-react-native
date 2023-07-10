@@ -13,7 +13,7 @@ const TabNavigator: React.FC = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = "";
 
-          if (route.name === "Home") {
+          if (route.name === "Photos") {
             iconName = "home";
           } else if (route.name === "Profile") {
             iconName = "person";
@@ -31,7 +31,7 @@ const TabNavigator: React.FC = () => {
 
       })}
     >
-      <Tab.Screen name="Home" component={FirstScreenNavigator} />
+      <Tab.Screen name="Photos" component={FirstScreenNavigator} />
       <Tab.Screen name="Search" component={SecondScreenNavigator} />
       <Tab.Screen name="Profile" component={ThirdScreenNavigator} />
     </Tab.Navigator>

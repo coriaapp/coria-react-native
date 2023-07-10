@@ -7,6 +7,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import HomeScreen from "./src/screens/HomeScreen";
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+
 import { isLightTheme } from "./src/utils/colorScheme";
 import ProfileAvatar from "./src/components/ProfileAvatar";
 import TabNavigator from "./src/TabNavigator";
@@ -25,4 +27,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default gestureHandlerRootHOC(App);

@@ -13,7 +13,7 @@ const SettingsScreen: React.FC = () => {
   return (
     <SafeAreaView style={{ backgroundColor: isLightTheme ? "white" : "black" }}>
       <Box h="100%">
-        <VStack space="xs" reversed={false} h="100%">
+        <VStack space="xs" h="100%" pt="$8" pb="$4">
           <Box w="100%" h="12%" justifyContent="flex-end" pl="$3" pb="$4">
             <Text
               size={"4xl"}

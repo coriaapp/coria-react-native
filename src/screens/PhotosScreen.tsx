@@ -72,7 +72,8 @@ export default function PhotosScreen() {
       <ImageViewing
         images={getImageSource(images)}
         imageIndex={currentImageIndex}
-        presentationStyle="overFullScreen"
+        presentationStyle="fullScreen"
+        animationType="slide"
         visible={isVisible}
         onRequestClose={onRequestClose}
         onLongPress={onLongPress}
