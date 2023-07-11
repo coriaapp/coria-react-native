@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { isLightTheme } from "../utils/colorScheme";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Box, Image } from "../components/core";
-import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
+import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 
 type NestedScreenProps = {
   route: {
@@ -14,13 +14,12 @@ type NestedScreenProps = {
           width: number;
           height: number;
         };
-      }
+      };
     };
   };
 };
 
 const NestedScreen = ({ route }: NestedScreenProps) => {
-
   return (
     <Box h="100%" w="100%" backgroundColor={isLightTheme ? "white" : "black"}>
       <ReactNativeZoomableView
@@ -32,9 +31,8 @@ const NestedScreen = ({ route }: NestedScreenProps) => {
       >
         <Image
           source={{ uri: route.params.msg.image.uri }}
-          style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+          style={{ width: "100%", height: "100%", resizeMode: "contain" }}
         />
-
       </ReactNativeZoomableView>
     </Box>
   );
@@ -44,6 +42,6 @@ export default NestedScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: "black"
   }
 });

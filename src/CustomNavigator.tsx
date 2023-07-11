@@ -15,27 +15,26 @@ const isAndroid: Boolean = Platform.OS === "android";
 const Stack = createNativeStackNavigator();
 
 const FirstScreenNavigator: React.FC = () => {
-  
   function formatTimestamp(timestamp: number) {
     // Create a Date object from the timestamp
-    let date = new Date(timestamp*1000);
-  
+    let date = new Date(timestamp * 1000);
+
     // Get the date and time as a string
     let dateString = date.toString();
-  
+
     // Split the string by spaces
     let dateArray = dateString.split(" ");
-  
+
     // Get the day, month, date, year, and time from the array
     let day = dateArray[0];
     let month = dateArray[1];
     let dd = dateArray[2];
     let year = dateArray[3];
     let time = dateArray[4];
-  
+
     // Format the date and time as a string
     let formatted = `${day}, ${month} ${dd}, ${year} - ${time}`;
-  
+
     // Return the formatted string
     return formatted;
   }
@@ -96,7 +95,9 @@ const FirstScreenNavigator: React.FC = () => {
                 const formattedSize = formatSize(
                   route.params?.msg.image.fileSize
                 );
-                const formattedTimestamp = formatTimestamp(route.params?.msg.timestamp);
+                const formattedTimestamp = formatTimestamp(
+                  route.params?.msg.timestamp
+                );
                 Alert.alert(
                   "Photo Metadata",
                   `\nFilename: ${route.params?.msg.image.filename}\n\nTimestamp: ${formattedTimestamp}\n\nDimensions: ${route.params.msg.image.width} x ${route.params?.msg.image.height} px\n\nMime type: ${route.params?.msg.type}\n\nSize: ${formattedSize}`

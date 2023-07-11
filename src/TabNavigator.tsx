@@ -2,7 +2,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import { isLightTheme } from "./utils/colorScheme";
-import { FirstScreenNavigator, SecondScreenNavigator, ThirdScreenNavigator } from "./CustomNavigator";
+import {
+  FirstScreenNavigator,
+  SecondScreenNavigator,
+  ThirdScreenNavigator
+} from "./CustomNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,10 +29,9 @@ const TabNavigator: React.FC = () => {
         },
         headerShown: false,
         tabBarStyle: {
-            backgroundColor: isLightTheme ? "white" : "black",
-            borderTopColor: isLightTheme ? "white" : "black",
+          backgroundColor: isLightTheme ? "white" : "black",
+          borderTopColor: isLightTheme ? "white" : "black"
         }
-
       })}
     >
       <Tab.Screen name="Photos" component={FirstScreenNavigator} />

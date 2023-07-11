@@ -18,7 +18,6 @@ import Web3Auth, {
   OPENLOGIN_NETWORK
 } from "@web3auth/react-native-sdk";
 
-
 import RPC from "../ethersRPC"; // for using ethers.js
 
 // Gallary
@@ -35,7 +34,7 @@ import {
   iosRequestReadWriteGalleryPermission
 } from "react-native-photo-gallery-api";
 
-import {addUserDataOrRetrieve} from "../utils/firestoreDb";
+import { addUserDataOrRetrieve } from "../utils/firestoreDb";
 
 import { PhotoGallery } from "react-native-photo-gallery-api";
 
@@ -251,10 +250,10 @@ const ProfileScreen: React.FC = () => {
       address: "string", // wallet public address
       name: "string",
       email: "string"
-    })
+    });
 
     uiConsole(data);
-  }
+  };
 
   const loggedInView = (
     <View style={styles.buttonArea}>
