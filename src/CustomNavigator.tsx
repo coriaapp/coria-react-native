@@ -127,7 +127,7 @@ export { FirstScreenNavigator }; // Stack-Navigator for Screen 1 Tab
 const SecondScreenNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ProfileScreen" component={PhotosScreen} />
+      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="NestedScreen" component={NestedScreen} />
     </Stack.Navigator>
   );

@@ -10,17 +10,35 @@ interface UserDataType {
 }
 
 const addUserDataOrRetrieve = async (data: UserDataType) => {
-    let currentUser = await firestore().collection('Users').where('address', '==', data.address).get();
-    if (currentUser.empty) {
-        try {
-            await db.collection('users').add(data);
-            currentUser = await firestore().collection('Users').where('address', '==', data.address).get();
-        } catch (error) {
-            console.log(error);
-        }
-    } 
+    let currentUser = await db
+        .collection('Users')
+        .doc(data.address)
+        .get()
+        .then(documentSnapshot => {
+            console.log('User exists: ', documentSnapshot.exists);
+        
+            if (documentSnapshot.exists) {
+                console.log('User data: ', documentSnapshot.data());
+                return documentSnapshot.data();
+            } else {
+                try {
+                    const user = db
+                        .collection('Users')
+                        .doc(data.address)
+                        .set({
+                            name: data.name,
+                            email: data.email,
+                        })
+                        .then(() => {
+                            return {name: data.name, email: data.email};
+                        });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        });
 
-    return currentUser.docs[0].data();
+    return currentUser;
 }
 
 // add ipfs hash data to users collection in firestore
@@ -32,7 +50,4 @@ const addIpfsHash = async (data: any) => {
     }
 }
 
-exports = {
-    addUserDataOrRetrieve,
-    addIpfsHash,
-}
+export { addUserDataOrRetrieve, addIpfsHash };

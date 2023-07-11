@@ -17,6 +17,8 @@ import Web3Auth, {
   LOGIN_PROVIDER,
   OPENLOGIN_NETWORK
 } from "@web3auth/react-native-sdk";
+
+
 import RPC from "../ethersRPC"; // for using ethers.js
 
 // Gallary
@@ -32,6 +34,8 @@ import {
   iosRequestAddOnlyGalleryPermission,
   iosRequestReadWriteGalleryPermission
 } from "react-native-photo-gallery-api";
+
+import {addUserDataOrRetrieve} from "../utils/firestoreDb";
 
 import { PhotoGallery } from "react-native-photo-gallery-api";
 
@@ -216,7 +220,7 @@ const ProfileScreen: React.FC = () => {
 
       setUserInfo(info.toString());
       setKey(info.privKey?.toString() || "");
-      uiConsole("Logged In");
+      uiConsole(info.userInfo.toString());
     } catch (e) {
       uiConsole("Error logging in", e);
     }
@@ -241,6 +245,16 @@ const ProfileScreen: React.FC = () => {
   const uiConsole = (...args: any[]) => {
     setConsole(JSON.stringify(args || {}, null, 2) + "\n\n\n\n" + console);
   };
+
+  const addDataToFirebase = async () => {
+    const data = await addUserDataOrRetrieve({
+      address: "string", // wallet public address
+      name: "string",
+      email: "string"
+    })
+
+    uiConsole(data);
+  }
 
   const loggedInView = (
     <View style={styles.buttonArea}>
@@ -285,6 +299,7 @@ const ProfileScreen: React.FC = () => {
             title="Decrypted base 64 to ipfs"
             onPress={uploadDecryptedbase64toIPFS}
           />
+          <Button title="Add Data to Firebase" onPress={addDataToFirebase} />
           <Text style={styles.consoleText}>
             URL: http://localhost:5001/ipfs/{ipfsHash}
           </Text>
@@ -300,11 +315,11 @@ const ProfileScreen: React.FC = () => {
           {/* <CustomButton /> */}
           {/* <Image source={{ uri: "ph://CC95F08C-88C3-4012-9D6D-64A413D254B3/LO/001/IMG_0111.HEIC" }} style={{width: 100, height: 100}}  /> */}
           {/* <Image source={{ uri: androidPhoto }} style={{width: 100, height: 100}}  /> */}
-          <Image
+          {/* <Image
             source={{ uri: `${decryptedBase64}` }}
             resizeMode="cover"
             style={{ width: 100, height: 100 }}
-          />
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
